@@ -233,14 +233,21 @@ build se alguma dessas aparecer.
 
 ### 4. Desenvolvimento local
 
-As rotas `/api/*` são funções serverless, então o servidor do Vite sozinho não as serve:
-
 ```bash
-npm i -g vercel     # uma vez
-vercel dev          # front + API em http://localhost:3000
+npm run dev         # front + API em http://localhost:5173
 ```
 
-Só para mexer na interface (sem chamadas à API), `npm run dev` basta.
+Um comando serve tudo: o plugin `vite-api-dev.ts` executa `api/index.ts` dentro do
+servidor do Vite, com hot reload também no backend. Não é preciso `vercel dev`
+nem um segundo processo.
+
+O servidor escuta em todas as interfaces, então dá para abrir do celular pelo
+endereço `Network` que aparece no terminal (mesma rede Wi-Fi) — útil para testar
+o layout mobile de verdade.
+
+Variáveis sem o prefixo `VITE_` (as do servidor) são lidas de `.env.local` e
+injetadas em `process.env`, igual à Vercel. **Alterou `.env.local`? Reinicie o
+`npm run dev`** — o arquivo é lido na inicialização.
 
 ```bash
 npm run typecheck       # TypeScript strict em src/, api/, shared/ e tests/
