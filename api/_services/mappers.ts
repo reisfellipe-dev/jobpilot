@@ -349,6 +349,13 @@ export interface UserSettings {
   tone: 'profissional' | 'direto' | 'entusiasmado' | 'tecnico';
   language: 'pt-BR' | 'en-US';
   aiConsent: boolean;
+  /** Descoberta automática por cron (§22). */
+  autoDiscovery: boolean;
+  discoveryMinScore: number;
+  discoveryMaxAgeDays: number;
+  /** Termos manuais que substituem a estratégia derivada do perfil (§10). */
+  discoveryKeywords: string[];
+  discoveryLocations: string[];
   updatedAt: string;
 }
 
@@ -360,6 +367,11 @@ export function toSettings(row: Row | null): UserSettings {
     tone: enumOrNull(row?.tone, ['profissional', 'direto', 'entusiasmado', 'tecnico'] as const) ?? 'profissional',
     language: enumOrNull(row?.language, ['pt-BR', 'en-US'] as const) ?? 'pt-BR',
     aiConsent: row?.ai_consent === true,
+    autoDiscovery: row?.auto_discovery === true,
+    discoveryMinScore: typeof row?.discovery_min_score === 'number' ? row.discovery_min_score : 55,
+    discoveryMaxAgeDays: typeof row?.discovery_max_age_days === 'number' ? row.discovery_max_age_days : 30,
+    discoveryKeywords: strArray(row?.discovery_keywords),
+    discoveryLocations: strArray(row?.discovery_locations),
     updatedAt: str(row?.updated_at),
   };
 }

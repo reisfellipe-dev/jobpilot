@@ -22,6 +22,8 @@ import { aiRoutes } from './_routes/ai';
 import { settingsRoutes } from './_routes/settings';
 import { dataRoutes } from './_routes/data';
 import { dashboardRoutes } from './_routes/dashboard';
+import { discoveryRoutes } from './_routes/discovery';
+import { applicationAssistRoutes } from './_routes/application-assist';
 
 const healthRoutes: Route[] = [
   route(
@@ -36,12 +38,21 @@ const healthRoutes: Route[] = [
   ),
 ];
 
-const routes: Route[] = [
+/**
+ * Ordem de registro é significativa: o roteador usa a primeira rota que casa.
+ * Exportada para o teste de regressão que garante que nenhuma rota literal seja
+ * capturada por uma rota com parâmetro no mesmo nível.
+ */
+export const routes: Route[] = [
   ...healthRoutes,
   ...profileRoutes,
   ...resumeRoutes,
   ...jobRoutes,
+  // Rotas literais precisam vir ANTES das que têm parâmetro no mesmo nível:
+  // "applications/:id" casaria com "applications/field-answers".
+  ...applicationAssistRoutes,
   ...applicationRoutes,
+  ...discoveryRoutes,
   ...aiRoutes,
   ...settingsRoutes,
   ...dataRoutes,

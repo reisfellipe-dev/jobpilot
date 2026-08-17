@@ -13,7 +13,9 @@ export type AIOperationName =
   | 'job.extract'
   | 'job.analyze'
   | 'resume.adapt'
-  | 'answer.generate';
+  | 'answer.generate'
+  /** Não é IA, mas consome APIs externas e merece o mesmo controle (§27). */
+  | 'discovery.run';
 
 export interface QuotaConfig {
   limit: number;
@@ -28,6 +30,9 @@ export const AI_QUOTAS: Record<AIOperationName, QuotaConfig> = {
   'job.analyze': { limit: 25, windowSeconds: 3600, dailyLimit: 150 },
   'resume.adapt': { limit: 12, windowSeconds: 3600, dailyLimit: 150 },
   'answer.generate': { limit: 40, windowSeconds: 3600, dailyLimit: 150 },
+  // Cada execução dispara várias chamadas a APIs de terceiros: limite mais curto
+  // para respeitar as fontes e evitar varreduras repetidas sem necessidade.
+  'discovery.run': { limit: 10, windowSeconds: 3600, dailyLimit: 60 },
 };
 
 interface QuotaResponse {

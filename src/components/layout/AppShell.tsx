@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   Briefcase,
+  Compass,
   FileText,
   LayoutDashboard,
   LogOut,
@@ -24,11 +25,14 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { to: '/', label: 'Dashboard', shortLabel: 'Início', icon: LayoutDashboard },
+  { to: '/descobrir', label: 'Descobrir', shortLabel: 'Descobrir', icon: Compass },
   { to: '/vagas', label: 'Vagas', shortLabel: 'Vagas', icon: Briefcase },
   { to: '/curriculos', label: 'Currículos', shortLabel: 'CVs', icon: FileText },
   { to: '/candidaturas', label: 'Candidaturas', shortLabel: 'Candidat.', icon: Send },
-  { to: '/perfil', label: 'Perfil', shortLabel: 'Perfil', icon: User },
 ];
+
+/** Perfil sai da barra inferior (5 itens é o limite confortável) e vai para o topo. */
+const SECONDARY_ITEMS: NavItem[] = [{ to: '/perfil', label: 'Perfil', shortLabel: 'Perfil', icon: User }];
 
 function Logo({ compact }: { compact?: boolean }) {
   return (
@@ -85,7 +89,7 @@ export function AppShell() {
         </div>
 
         <nav className="flex-1 space-y-0.5 px-3 py-2" aria-label="Navegação principal">
-          {NAV_ITEMS.map((item) => (
+          {[...NAV_ITEMS, ...SECONDARY_ITEMS].map((item) => (
             <NavLink
               key={item.to}
               to={item.to}
@@ -141,6 +145,18 @@ export function AppShell() {
       <header className="safe-top sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-base/90 px-4 backdrop-blur lg:hidden">
         <Logo />
         <div className="flex items-center gap-1">
+          <NavLink
+            to="/perfil"
+            className={({ isActive }) =>
+              cn(
+                'grid size-10 place-items-center rounded-lg transition-colors',
+                isActive ? 'bg-accent-soft text-accent-ink' : 'text-ink-muted hover:bg-elevated',
+              )
+            }
+            aria-label="Perfil"
+          >
+            <User className="size-4" aria-hidden />
+          </NavLink>
           <NavLink
             to="/configuracoes"
             className={({ isActive }) =>

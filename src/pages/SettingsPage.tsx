@@ -5,6 +5,8 @@ import { Badge, Card, PageHeader, SectionTitle } from '@/components/ui/Primitive
 import { ErrorState, InlineError, ListSkeleton } from '@/components/ui/States';
 import { Checkbox, SelectInput, TextInput } from '@/components/ui/Field';
 import { Modal } from '@/components/ui/Modal';
+import { Tabs } from '@/components/ui/Tabs';
+import { DiscoverySettings } from '@/components/discovery/DiscoverySettings';
 import { toneOptions } from '@/lib/options';
 import { downloadJson } from '@/lib/clipboard';
 import { formatDateTime } from '@/lib/format';
@@ -48,6 +50,7 @@ export function SettingsPage() {
   const [importResult, setImportResult] = useState<ImportSummary | null>(null);
   const [eraseOpen, setEraseOpen] = useState(false);
   const [eraseConfirm, setEraseConfirm] = useState('');
+  const [tab, setTab] = useState<'geral' | 'descoberta'>('geral');
 
   const patch = (changes: Partial<UserSettings>) => {
     if (!settings) return;
@@ -114,9 +117,21 @@ export function SettingsPage() {
 
   return (
     <>
-      <PageHeader title="Configurações" description="Inteligência artificial, privacidade e seus dados." />
+      <PageHeader title="Configurações" description="Inteligência artificial, descoberta, privacidade e seus dados." />
 
-      <div className="space-y-5">
+      <Tabs<'geral' | 'descoberta'>
+        value={tab}
+        onChange={setTab}
+        className="mb-5"
+        items={[
+          { value: 'geral', label: 'Geral' },
+          { value: 'descoberta', label: 'Descoberta' },
+        ]}
+      />
+
+      {tab === 'descoberta' && <DiscoverySettings />}
+
+      <div className={tab === 'geral' ? 'space-y-5' : 'hidden'}>
         <Card>
           <SectionTitle title="Conta" />
           <dl className="mt-4 space-y-2 text-xs">

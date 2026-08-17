@@ -4,7 +4,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import handler from '../api/index';
+import handler, { routes } from '../api/index';
 
 interface Captured {
   status: number;
@@ -110,6 +110,58 @@ describe('guarda de autenticação', () => {
       makeRequest('GET', 'profile', { headers: { authorization: 'Basic dXNlcjpzZW5oYQ==' } }),
     );
     expect(result.status).toBe(401);
+  });
+});
+
+describe('ordem de registro das rotas', () => {
+  /**
+   * O roteador devolve a PRIMEIRA rota que casa. Uma rota com parâmetro
+   * ("applications/:id") casa com um caminho literal de mesmo tamanho
+   * ("applications/field-answers"), então a literal precisa vir antes.
+   * Este teste falha se alguém reordenar os grupos em api/index.ts.
+   */
+  it('nenhuma rota literal é capturada por uma rota com parâmetro', () => {
+    const problems: string[] = [];
+
+    for (let i = 0; i < routes.length; i += 1) {
+      const generic = routes[i]!;
+      const genericParts = generic.path.split('/');
+      if (!genericParts.some((part) => part.startsWith(':'))) continue;
+
+      for (let j = i + 1; j < routes.length; j += 1) {
+        const literal = routes[j]!;
+        if (literal.method !== generic.method) continue;
+
+        const literalParts = literal.path.split('/');
+        if (literalParts.length !== genericParts.length) continue;
+        if (literalParts.some((part) => part.startsWith(':'))) continue;
+
+        const captured = genericParts.every(
+          (part, index) => part.startsWith(':') || part === literalParts[index],
+        );
+        if (captured) {
+          problems.push(`${generic.method} ${generic.path} captura ${literal.path}`);
+        }
+      }
+    }
+
+    expect(problems).toEqual([]);
+  });
+
+  it('não existem duas rotas idênticas', () => {
+    const seen = new Set<string>();
+    const duplicates: string[] = [];
+    for (const item of routes) {
+      const key = `${item.method} ${item.path}`;
+      if (seen.has(key)) duplicates.push(key);
+      seen.add(key);
+    }
+    expect(duplicates).toEqual([]);
+  });
+
+  it('somente /health é pública', () => {
+    const publicRoutes = routes.filter((item) => item.isPublic).map((item) => item.path);
+    expect(publicRoutes).toEqual(['health']);
   });
 });
 

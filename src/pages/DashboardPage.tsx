@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ArrowRight, Briefcase, FilePlus2, Send, Sparkles, Target } from 'lucide-react';
+import { ArrowRight, Briefcase, Compass, FilePlus2, Send, Sparkles, Target } from 'lucide-react';
 import { useDashboard } from '@/hooks/queries';
 import { Button } from '@/components/ui/Button';
 import { Badge, Card, PageHeader, SectionTitle, Stat } from '@/components/ui/Primitives';
@@ -7,8 +7,10 @@ import { EmptyState, ErrorState, Skeleton } from '@/components/ui/States';
 import { ScoreBadge } from '@/components/ui/Score';
 import { APPLICATION_STATUS_LABEL, type ApplicationStatus } from '@shared/constants';
 import { formatRelative } from '@/lib/format';
+import { DiscoveryBanner } from '@/components/discovery/DiscoveryBanner';
 
 const QUICK_ACTIONS = [
+  { to: '/descobrir', label: 'Descobrir', icon: Compass },
   { to: '/vagas?nova=1', label: 'Nova vaga', icon: Briefcase },
   { to: '/curriculos?novo=1', label: 'Novo currículo', icon: FilePlus2 },
   { to: '/candidaturas?nova=1', label: 'Nova candidatura', icon: Send },
@@ -23,8 +25,10 @@ export function DashboardPage() {
     <>
       <PageHeader title="Dashboard" description="Onde está cada candidatura e o que fazer agora." />
 
+      <DiscoveryBanner />
+
       {/* Atalhos - prioridade no mobile (§32) */}
-      <div className="mb-5 grid grid-cols-3 gap-2">
+      <div className="mb-5 grid grid-cols-2 gap-2 sm:grid-cols-4">
         {QUICK_ACTIONS.map((action) => (
           <Link
             key={action.to}

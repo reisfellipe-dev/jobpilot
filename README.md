@@ -12,6 +12,8 @@ das candidaturas — tudo usável do celular.
 - [Visão geral](#visão-geral)
 - [Stack](#stack)
 - [Arquitetura](#arquitetura)
+- [Discovery Engine](#discovery-engine)
+- [Candidatura assistida](#candidatura-assistida)
 - [Como o score é calculado](#como-o-score-é-calculado)
 - [Política anti-alucinação](#política-anti-alucinação)
 - [Setup](#setup)
@@ -35,10 +37,12 @@ das candidaturas — tudo usável do celular.
 |---|---|
 | **Perfil** | Fonte única de verdade: dados, experiências, projetos, skills, formação, certificações, idiomas, objetivo de carreira. |
 | **Currículos** | Várias versões do mesmo profissional (Front-end, Back-end, Estágio…). Importação de PDF/DOCX, criação manual, edição completa, duplicação, exportação. |
+| **Descobrir** | Busca vagas em APIs públicas (Greenhouse, Lever, Ashby, Remotive, Remote OK, Arbeitnow), normaliza, deduplica entre fontes e ranqueia por aderência + recência. |
 | **Vagas** | Cadastro por texto colado, manual ou com link de referência. A IA separa requisitos obrigatórios, diferenciais e tecnologias. |
 | **Análise** | Estrutura a vaga, calcula o score de **todos** os currículos, aponta o recomendado e explica o porquê. |
 | **Adaptação** | Reescreve e reordena um currículo para a vaga, com verificação automática contra invenção de fatos. |
 | **Textos** | Carta de apresentação, mensagem para recrutador, "fale sobre você", por que a empresa, por que a vaga, pretensão salarial e perguntas do processo. |
+| **Candidatura assistida** | Lê as perguntas reais do formulário (quando a plataforma as publica), preenche o que existe no perfil e marca explicitamente o que exige sua revisão. |
 | **Candidaturas** | Kanban de 7 etapas, respostas salvas, observações, histórico. |
 
 ---
@@ -49,6 +53,7 @@ das candidaturas — tudo usável do celular.
 **Backend** — Vercel Serverless Functions (Node, TypeScript).
 **Dados** — Supabase PostgreSQL com Row Level Security · Supabase Auth · Supabase Storage.
 **IA** — Groq (principal) e NVIDIA NIM (fallback), atrás de uma abstração de provider.
+**Descoberta** — conectores para APIs públicas de vagas, sem SDK proprietário (fetch nativo).
 **PWA** — manifest, ícones, service worker de app shell.
 
 > A aplicação **não depende da Anthropic em runtime**. Não há `@anthropic-ai/sdk`,
@@ -69,7 +74,9 @@ Navegador (React SPA)
    ├── ResumeService    (currículos e versões adaptadas)
    ├── JobService       (vagas)
    ├── MatchingService  (score determinístico + camada semântica)
-   ├── ApplicationService
+   ├── DiscoveryService (conectores → normalização → dedupe → ranking)
+   │     └── connectors/  greenhouse · lever · ashby · remotive · remoteok · arbeitnow
+   ├── ApplicationService (plano de candidatura + mapeamento de campos)
    ├── FileService      (upload direto do navegador ao Storage)
    └── AIService
          ├── GroqProvider   ─┐
@@ -111,6 +118,145 @@ por `/api/ai/*`, que roda no servidor.
 | `AI_PROVIDER` fixado em `groq` ou `nvidia` | Não |
 
 O provider realmente usado é gravado em `ai_usage` e mostrado na interface.
+
+---
+
+## Discovery Engine
+
+Busca vagas em fontes públicas, normaliza, deduplica e ranqueia — **sem nenhuma
+chamada de IA**. Descobrir e ordenar centenas de vagas por sincronização com IA
+seria caro e lento; aqui tudo é determinístico, reproduzível e explicável. A IA
+entra depois, sob demanda, quando você abre uma vaga específica.
+
+```
+Connector → Raw Job → Normalizer → Pré-filtro → Deduplicador
+         → Repositório → Matching determinístico → Ranking
+```
+
+### Fontes integradas
+
+Todas com **API pública documentada, sem autenticação e sem contornar nada**.
+Cada uma foi verificada de verdade — veja `tests/connectors.integration.test.ts`.
+
+| Fonte | Tipo | Endpoint | Precisa configurar |
+|---|---|---|---|
+| Greenhouse | ATS por empresa | `boards-api.greenhouse.io/v1/boards/{board}/jobs` | board da empresa |
+| Lever | ATS por empresa | `api.lever.co/v0/postings/{slug}` | slug da empresa |
+| Ashby | ATS por empresa | `api.ashbyhq.com/posting-api/job-board/{board}` | board da empresa |
+| Remotive | Quadro aberto | `remotive.com/api/remote-jobs` | nada |
+| Remote OK | Quadro aberto | `remoteok.com/api` | nada |
+| Arbeitnow | Quadro aberto | `arbeitnow.com/api/job-board-api` | nada |
+
+Os três quadros abertos são ativados sozinhos no primeiro uso. Para acompanhar
+uma empresa específica, cole a URL da página de carreiras: o sistema identifica o
+ATS, **valida contra a API de verdade** e só então cadastra a fonte. Slug errado
+resulta em erro imediato, não em fonte fantasma que nunca traz nada.
+
+### O que NÃO é suportado — e por quê
+
+Isto está na interface, não escondido no código:
+
+| Plataforma | Motivo |
+|---|---|
+| LinkedIn | Sem API pública de vagas; automação proibida nos Termos de Uso e protegida por anti-bot |
+| Gupy | Sem API pública documentada para terceiros |
+| Indeed | API de publicação descontinuada para novos parceiros; raspagem bloqueada |
+| Catho, Vagas.com, InfoJobs, Glassdoor | Sem API pública acessível |
+
+Vagas dessas plataformas continuam totalmente utilizáveis: cadastre manualmente
+colando a descrição. Análise, matching, adaptação e geração de textos funcionam
+igual. **Nenhuma linha do projeto tenta burlar CAPTCHA, autenticação, bloqueio ou
+rate limit** — isso é verificado na revisão e declarado aqui de propósito.
+
+### Deduplicação entre fontes
+
+A mesma vaga aparece no site da empresa, no ATS e em agregadores. Duas camadas:
+
+1. **Impressão digital exata** — empresa normalizada (sem "Ltda", "Inc") + título
+   normalizado ("Sr." = "Senior", "Front-End" = "frontend") + agrupador de local.
+2. **Similaridade** — mesma empresa e títulos equivalentes acima de 82%.
+
+O resultado é uma vaga com todas as URLs preservadas: *"Encontrada em 3 fontes"*.
+Detalhe que os testes protegem: a mesma vaga em **cidades diferentes** continua
+sendo duas vagas.
+
+### Relevância = aderência + recência
+
+```
+relevância = 72% × match determinístico + 28% × recência
+```
+
+Recência decai por faixas (≤6h = 1,0 · ≤24h = 0,95 · ≤7d = 0,7 · ≤30d = 0,4 · +60d = 0,1).
+Vaga sem data recebe valor **neutro**, nunca penalidade. O card mostra o cálculo:
+
+```
+MATCH 93%   ·   publicada há 4 horas   ·   relevância muito alta
+✓ React   ✓ TypeScript   ✓ Frontend   ✓ Remoto
+! Next.js
+```
+
+### Controle de custo e respeito às fontes
+
+- **Pré-filtro determinístico** descarta o que não tem relação com o perfil antes
+  de qualquer processamento caro.
+- **Busca incremental**: cada fonte guarda `last_sync_at` e só traz o que mudou.
+- **Cache por impressão digital**: vaga inalterada não é reprocessada.
+- Timeout, retry com backoff exponencial, `Retry-After` obedecido, concorrência
+  limitada a 3 fontes e circuit breaker por host.
+- Falha de uma fonte **não derruba as outras** — a tela informa quais falharam.
+
+### Sincronização automática
+
+Existe, e é **client-side** por decisão de segurança: ao abrir o app, se a opção
+estiver ligada e a última busca tiver mais de 12 horas, a sincronização dispara em
+segundo plano.
+
+Não há cron no servidor porque um agendamento sem o usuário presente precisaria de
+uma credencial administrativa capaz de ler dados de qualquer usuário, contornando a
+Row Level Security. Este projeto não usa esse tipo de credencial em lugar nenhum —
+e essa garantia vale mais do que a conveniência de um cron.
+
+---
+
+## Candidatura assistida
+
+Ao tocar em **Preparar candidatura**, o JobPilot monta o formulário com base no
+perfil, no currículo recomendado e nas perguntas reais da vaga.
+
+### Estados de cada campo
+
+Nenhuma resposta aparece sem procedência declarada:
+
+| Estado | Significado | Exemplo |
+|---|---|---|
+| `KNOWN` | Existe no perfil, textualmente | E-mail, LinkedIn, "tem experiência com React?" → Sim |
+| `INFERRED` | Calculado pelo sistema — confira | "Anos de experiência" = 3, somando períodos sem sobreposição |
+| `UNKNOWN` | Sem base no perfil | Telefone não cadastrado |
+| `USER_REQUIRED` | Só você pode responder | Visto, pretensão salarial, autodeclaração, upload de arquivo |
+
+Pergunta específica da vaga que não se encaixa em nada disso vai para **revisão
+obrigatória** — o sistema não responde por você sem base (§18).
+
+Pergunta do tipo *"você tem experiência com X?"* consulta as suas skills: se X está
+no perfil, responde **Sim com a evidência**; se não está, responde **Não marcado
+como dedução**, explicando que a ausência é do perfil e não da sua vida. Respostas
+que você revisa podem ser salvas e são reaproveitadas nas próximas vagas.
+
+### Por que não existe envio automático
+
+O Greenhouse é o único ATS integrado que publica o formulário da vaga — por isso
+conseguimos preparar as perguntas **exatas** do processo. Mas **nenhuma** das
+plataformas permite que um terceiro submeta a candidatura sem credencial privada
+do empregador:
+
+- Greenhouse: o POST de candidatura exige a API key do board (do empregador);
+- Lever e Ashby: não publicam endpoint de submissão para terceiros;
+- Sites próprios: formulário arbitrário, atrás de anti-bot.
+
+Implementar "preenchimento automático" exigiria automação de navegador contra essas
+proteções. O produto não faz isso. Então a tela diz, com todas as letras: *"O envio
+é feito por você, na plataforma da empresa"* — e entrega tudo pronto para colar,
+com botão direto para o formulário. Prometer o contrário seria mentira.
 
 ---
 
@@ -181,9 +327,12 @@ npm install
 ### 1. Supabase
 
 1. Crie um projeto em [supabase.com](https://supabase.com).
-2. Abra **SQL Editor** e execute o conteúdo de `supabase/migrations/0001_init.sql`.
-   Isso cria tabelas, índices, triggers, políticas de RLS, o bucket privado
-   `resumes` e as funções de rate limit.
+2. Abra **SQL Editor** e execute, **nesta ordem**:
+   - `supabase/migrations/0001_init.sql` — tabelas, índices, triggers, RLS, bucket
+     privado `resumes` e funções de rate limit;
+   - `supabase/migrations/0002_discovery.sql` — fontes, sincronizações, empresas,
+     deduplicação, matches, notificações e respostas reutilizáveis.
+   Ambas são idempotentes: rodar de novo não quebra nada.
 3. Em **Authentication → Providers**, mantenha *Email* habilitado.
    Para uso pessoal, considere desabilitar novos cadastros depois de criar sua conta
    (*Authentication → Sign In / Providers → Allow new users to sign up*).
@@ -302,7 +451,7 @@ O app abre em tela cheia, com ícone próprio.
 npm test
 ```
 
-165 testes cobrindo:
+276 testes cobrindo:
 
 | Arquivo | Cobertura |
 |---|---|
@@ -314,6 +463,22 @@ npm test
 | `ai-service.test.ts` | Seleção de provider, fallback em cada tipo de falha, bloqueio de fallback em operação pesada, degradação de JSON mode, retry com correção, tradução de erros, ausência de vazamento de chave |
 | `validation.test.ts` | Todos os schemas de entrada, incluindo rejeição de UUID falso, URL `javascript:`, data inexistente e payload não-objeto |
 | `http.test.ts` | Bearer token, tradução de erros do Postgres (incluindo violação de RLS), limites de quota, diagnóstico sem segredos |
+| `discovery-normalize.test.ts` | HTML→texto sem tags, extração de tecnologias (incluindo os falsos positivos "rest of the team", "R$", "go to production"), senioridade, modalidade, seções de requisitos, datas, e a regra de nunca inventar salário |
+| `discovery-matching.test.ts` | Impressão digital entre fontes, normalização de empresa e título, URLs com rastreamento, deduplicação (incluindo cidades diferentes), recência, relevância, estratégia de busca e pré-filtro |
+| `application-mapping.test.ts` | Detecção de ATS por URL, recusa explicada de plataformas sem integração, e os quatro estados de campo — incluindo a garantia de que nenhum conector promete envio automático |
+| `connectors.integration.test.ts` | **Contrato real das seis APIs** (opt-in, ver abaixo) |
+
+Os conectores têm ainda um teste de integração **contra as APIs de verdade**,
+desligado por padrão para não depender de rede no build:
+
+```bash
+JOBPILOT_LIVE_TEST=1 npx vitest run tests/connectors.integration.test.ts
+```
+
+Ele confirma que Greenhouse, Lever, Ashby, Remotive, Remote OK e Arbeitnow ainda
+respondem no formato esperado, que board inexistente falha de forma explícita e
+que o Greenhouse continua publicando as perguntas do formulário. É o que impede o
+projeto de prometer integração que não funciona mais.
 
 O que **não** é coberto por teste automatizado: a RLS em si e o upload real ao
 Storage — ambos exigem um Supabase ativo. A RLS é garantida no schema (toda tabela
@@ -376,6 +541,11 @@ crie duas contas e tente acessar o ID de um recurso da outra: a resposta é 404/
 | Uma chamada semântica para todos os currículos | Uma chamada por currículo | Menos custo e comparação real entre eles no mesmo contexto |
 | Cache por fingerprint de contexto | Cache por tempo | Reanalisa exatamente quando vaga ou currículos mudam, e só então |
 | Tema escuro único | Claro + escuro | Uma paleta bem executada em vez de dois temas medianos |
+| Discovery 100% determinístico, sem IA | Ranquear cada vaga com IA | Centenas de vagas por sincronização tornariam o custo e a latência inviáveis; e o ranking fica explicável |
+| Conectores por ATS, não scraper universal | Um raspador genérico | Cada plataforma tem estrutura, proteção e termos próprios; scraper genérico quebra e desrespeita a fonte |
+| Cadastro de fonte por URL, validado na hora | Lista fixa de empresas | Nada de fonte que responde 404 para sempre; e a lista não envelhece |
+| Nenhum conector envia candidatura | Automação de navegador | Exigiria contornar anti-bot e autenticação — proibido pelo próprio briefing (§2, §33) |
+| Sincronização automática no cliente | Vercel Cron | Cron multiusuário exigiria service_role, quebrando a garantia de RLS em toda a aplicação |
 | Sem ESLint | ESLint + plugins | TypeScript strict (`noUncheckedIndexedAccess`, `noUnusedLocals`) + 143 testes já barram o que importa, sem mais uma engrenagem no build |
 
 ---
@@ -413,6 +583,18 @@ Todas as rotas exigem `Authorization: Bearer <jwt>`, exceto `/api/health`.
 | `GET` `PATCH` | `/api/settings` | Preferências |
 | `GET` | `/api/usage` | Consumo de IA nas últimas 24 h |
 | `GET` | `/api/dashboard` | Agregados da tela inicial |
+| `GET` | `/api/discovery/jobs` | Vagas descobertas, com filtros aplicados no servidor |
+| `GET` | `/api/discovery/summary` | Contadores da tela Descobrir |
+| `POST` | `/api/discovery/run` | Executa os conectores ativos |
+| `GET` | `/api/discovery/strategy` | Estratégia de busca derivada do perfil, explicada |
+| `PATCH` | `/api/discovery/jobs/:id` | Salvar, descartar ou restaurar uma vaga descoberta |
+| `GET` `POST` | `/api/discovery/sources` | Fontes conectadas e saúde de cada uma |
+| `POST` | `/api/discovery/sources/detect` | Detecta e **valida** o ATS a partir da URL de carreiras |
+| `PATCH` `DELETE` | `/api/discovery/sources/:id` | Ativar, desativar ou remover fonte |
+| `GET` | `/api/discovery/syncs` | Histórico de sincronizações |
+| `GET` `POST` | `/api/notifications` | Notificações internas |
+| `POST` | `/api/applications/plan` | Monta o plano de preenchimento da candidatura |
+| `GET` `POST` `DELETE` | `/api/applications/field-answers` | Respostas reutilizáveis por pergunta |
 | `GET` | `/api/export` | Backup JSON completo |
 | `POST` | `/api/import` | Importação aditiva |
 | `POST` | `/api/account/erase` | Apagar todos os dados (`{"confirm":"APAGAR"}`) |
@@ -481,6 +663,11 @@ Escolhas conscientes desta primeira versão:
   registra; o envio continua com você. A arquitetura comporta uma extensão de
   navegador ou APIs oficiais no futuro.
 - **Sem scraping de sites de vagas.** Cole a descrição; a URL fica como referência.
+- **A descoberta cobre 6 fontes públicas**, não o mercado inteiro. LinkedIn, Gupy,
+  Indeed e Catho não têm API pública — estão listados na interface com o motivo.
+- **Nenhuma candidatura é enviada automaticamente**, em nenhuma plataforma. O
+  produto prepara tudo; o envio é seu.
+- **Sem cron no servidor.** A sincronização automática roda quando você abre o app.
 - **Sem OCR.** PDFs digitalizados precisam do texto colado manualmente.
 - **Sem exportação em PDF.** A exportação é `.txt` (compatível com ATS) e `.json`.
 - **Análises não são reimportadas** no backup por serem dados derivados — reanalisar

@@ -17,6 +17,7 @@ const ResumeDetailPage = lazy(() =>
   import('./pages/ResumeDetailPage').then((m) => ({ default: m.ResumeDetailPage })),
 );
 const JobsPage = lazy(() => import('./pages/JobsPage').then((m) => ({ default: m.JobsPage })));
+const DiscoverPage = lazy(() => import('./pages/DiscoverPage').then((m) => ({ default: m.DiscoverPage })));
 const JobDetailPage = lazy(() => import('./pages/JobDetailPage').then((m) => ({ default: m.JobDetailPage })));
 const ApplicationsPage = lazy(() =>
   import('./pages/ApplicationsPage').then((m) => ({ default: m.ApplicationsPage })),
@@ -113,6 +114,7 @@ export function App() {
             <Route path="perfil" element={<ProfilePage />} />
             <Route path="curriculos" element={<ResumesPage />} />
             <Route path="curriculos/:id" element={<ResumeDetailPage />} />
+            <Route path="descobrir" element={<DiscoverPage />} />
             <Route path="vagas" element={<JobsPage />} />
             <Route path="vagas/:id" element={<JobDetailPage />} />
             <Route path="candidaturas" element={<ApplicationsPage />} />

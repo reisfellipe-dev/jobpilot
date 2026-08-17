@@ -399,6 +399,12 @@ export interface UserSettings {
   tone: 'profissional' | 'direto' | 'entusiasmado' | 'tecnico';
   language: 'pt-BR' | 'en-US';
   aiConsent: boolean;
+  /** Descoberta automática ao abrir o app (§22). */
+  autoDiscovery: boolean;
+  discoveryMinScore: number;
+  discoveryMaxAgeDays: number;
+  discoveryKeywords: string[];
+  discoveryLocations: string[];
   updatedAt: string;
 }
 

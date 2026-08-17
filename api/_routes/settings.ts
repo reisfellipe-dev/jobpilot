@@ -14,6 +14,11 @@ const settingsPatchSchema = z.object({
   tone: z.enum(['profissional', 'direto', 'entusiasmado', 'tecnico']),
   language: z.enum(['pt-BR', 'en-US']),
   aiConsent: z.boolean(),
+  // Preferências de descoberta (fase 2)
+  autoDiscovery: z.boolean().default(false),
+  discoveryMinScore: z.number().int().min(0).max(100).default(55),
+  discoveryMaxAgeDays: z.number().int().min(1).max(365).default(30),
+  discoveryKeywords: z.array(z.string().trim().max(80)).max(20).default([]),
 });
 
 /** Tabelas de dados do usuário, na ordem segura de exclusão. */
@@ -44,6 +49,10 @@ export const settingsRoutes: Route[] = [
         tone: input.tone,
         language: input.language,
         ai_consent: input.aiConsent,
+        auto_discovery: input.autoDiscovery,
+        discovery_min_score: input.discoveryMinScore,
+        discovery_max_age_days: input.discoveryMaxAgeDays,
+        discovery_keywords: input.discoveryKeywords.filter(Boolean),
       })
       .eq('user_id', ctx.user.id)
       .select('*')
