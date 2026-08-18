@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "JobPilot - Career OS: plataforma pessoal de inteligencia para candidaturas profissionais.",
+  "description": "LippzAutoApply - Career OS: plataforma pessoal de inteligencia para candidaturas profissionais.",
   "engines": {
     "node": ">=20"
   },

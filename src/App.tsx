@@ -83,7 +83,7 @@ function NotFound() {
     <div className="py-20 text-center">
       <p className="text-5xl font-semibold text-line-strong">404</p>
       <h1 className="mt-3 text-lg font-semibold text-ink">Página não encontrada</h1>
-      <p className="mt-1 text-sm text-ink-muted">O endereço acessado não existe no JobPilot.</p>
+      <p className="mt-1 text-sm text-ink-muted">O endereço acessado não existe no LippzAutoApply.</p>
     </div>
   );
 }

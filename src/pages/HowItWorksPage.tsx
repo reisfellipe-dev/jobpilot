@@ -108,8 +108,8 @@ export function HowItWorksPage() {
       <header className="safe-top sticky top-0 z-30 border-b border-line bg-base/90 backdrop-blur">
         <div className="mx-auto flex h-14 w-full max-w-4xl items-center justify-between px-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <div className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-white">J</div>
-            <span className="text-sm font-semibold tracking-tight text-ink">JobPilot</span>
+            <div className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-white">L</div>
+            <span className="text-sm font-semibold tracking-tight text-ink">LippzAutoApply</span>
           </div>
           <div className="flex items-center gap-1">
             <ThemeToggle compact />
@@ -128,16 +128,23 @@ export function HowItWorksPage() {
         {/* --- Abertura --- */}
         <p className="text-xs font-medium uppercase tracking-wider text-accent">Documentação</p>
         <h1 className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
-          Um copiloto para a sua busca por vaga
+          Vagas com o quanto você se encaixa, e por quê
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-muted">
-          O JobPilot reúne num só lugar o que costuma ficar espalhado entre planilhas, pastas de currículo e abas do
-          navegador: seu histórico profissional, várias versões de currículo, as vagas que te interessam, o quanto você
-          realmente se encaixa em cada uma e o acompanhamento de cada candidatura.
+          O LippzAutoApply busca vagas em seis fontes públicas e calcula, para cada uma, um score de encaixe com o seu
+          perfil. Não é uma opinião gerada por IA que muda a cada consulta: são sete critérios com peso declarado —
+          requisitos obrigatórios, senioridade, tempo de experiência, modalidade — que somam 100 pontos, sempre com o
+          motivo por trás do número.
         </p>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
-          Ele não envia candidaturas por você e não promete atalhos. O que ele faz é tirar de você o trabalho repetitivo
-          — comparar, adaptar, redigir, organizar — e deixar explícito o raciocínio por trás de cada sugestão.
+          É diferente de colar a vaga num chat de IA: aqui o cálculo é reproduzível, os mesmos dados sempre dão o mesmo
+          resultado, e você pode comparar vagas entre si com critério consistente. E é diferente de um agregador como
+          LinkedIn ou Indeed: a relevância não é uma caixa-preta otimizada para engajamento — é uma fórmula que você
+          pode ver por inteiro, logo abaixo.
+        </p>
+        <p className="mt-3 max-w-2xl text-base leading-relaxed text-ink-muted">
+          A partir daí, o LippzAutoApply também adapta seu currículo e redige os textos da candidatura — com uma verificação
+          automática que impede a IA de inventar qualquer coisa que não esteja no seu histórico real.
         </p>
 
         {/* --- Sumário --- */}
@@ -241,7 +248,7 @@ export function HowItWorksPage() {
                   que a vaga, pretensão salarial e as perguntas do processo.
                 </p>
                 <p>
-                  Quando a plataforma publica o formulário, o JobPilot lê as perguntas reais e preenche o que já existe
+                  Quando a plataforma publica o formulário, o LippzAutoApply lê as perguntas reais e preenche o que já existe
                   no seu perfil, marcando de forma explícita o que exige a sua revisão.
                 </p>
               </Step>
@@ -420,7 +427,7 @@ export function HowItWorksPage() {
           >
             <ul className="space-y-3 text-sm leading-relaxed text-ink-muted">
               {[
-                ['Não existe envio automático de candidatura.', 'Nenhuma plataforma permite que um terceiro submeta sem credencial privada do empregador. O JobPilot prepara tudo e entrega pronto; o envio é seu, no site da empresa.'],
+                ['Não existe envio automático de candidatura.', 'Nenhuma plataforma permite que um terceiro submeta sem credencial privada do empregador. O LippzAutoApply prepara tudo e entrega pronto; o envio é seu, no site da empresa.'],
                 ['Não há raspagem de sites de vagas.', 'Só APIs públicas. Para o resto, você cola a descrição.'],
                 ['A descoberta cobre seis fontes, não o mercado inteiro.', 'As plataformas ausentes estão listadas na interface, com o motivo.'],
                 ['Não há sincronização agendada no servidor.', 'Um agendamento sem você presente exigiria uma credencial capaz de ler dados de qualquer usuário. O projeto não usa esse tipo de credencial em lugar nenhum. A sincronização roda quando você abre o app.'],
@@ -445,7 +452,7 @@ export function HowItWorksPage() {
             to={session ? '/' : '/entrar'}
             className="mt-4 inline-flex items-center gap-2 rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-accent-hover"
           >
-            {session ? 'Voltar ao app' : 'Entrar no JobPilot'}
+            {session ? 'Voltar ao app' : 'Entrar no LippzAutoApply'}
           </Link>
         </footer>
       </main>

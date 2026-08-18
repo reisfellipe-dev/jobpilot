@@ -59,7 +59,7 @@ export function LoginPage() {
   };
 
   const titles: Record<Mode, { title: string; subtitle: string; cta: string }> = {
-    signin: { title: 'Entrar no JobPilot', subtitle: 'Seu Career OS pessoal.', cta: 'Entrar' },
+    signin: { title: 'Entrar no LippzAutoApply', subtitle: 'Seu Career OS pessoal.', cta: 'Entrar' },
     signup: {
       title: 'Criar sua conta',
       subtitle: 'Perfil, currículos e candidaturas em um só lugar.',
@@ -76,9 +76,9 @@ export function LoginPage() {
     <div className="grid min-h-dvh place-items-center bg-base px-4 py-10">
       <div className="w-full max-w-sm">
         <div className="mb-8 flex items-center gap-2.5">
-          <div className="grid size-9 place-items-center rounded-xl bg-accent text-base font-bold text-white">J</div>
+          <div className="grid size-9 place-items-center rounded-xl bg-accent text-base font-bold text-white">L</div>
           <div>
-            <p className="text-sm font-semibold tracking-tight text-ink">JobPilot</p>
+            <p className="text-sm font-semibold tracking-tight text-ink">LippzAutoApply</p>
             <p className="text-xs text-ink-faint">Career OS</p>
           </div>
         </div>
@@ -184,7 +184,7 @@ export function LoginPage() {
 
         <p className="mt-6 text-center text-xs">
           <Link to="/como-funciona" className="text-accent-ink underline-offset-4 transition hover:underline">
-            Como o JobPilot funciona
+            Como o LippzAutoApply funciona
           </Link>
         </p>
 

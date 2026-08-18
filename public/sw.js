@@ -1,5 +1,5 @@
 /**
- * Service worker do JobPilot.
+ * Service worker do LippzAutoApply.
  *
  * REGRA DE PRIVACIDADE (§33): somente o app shell (HTML/CSS/JS/ícones) entra em
  * cache. Nada de /api, nada de Supabase, nada de dados pessoais — um cache do

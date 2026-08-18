@@ -1,4 +1,4 @@
-# JobPilot — Career OS
+# LippzAutoApply — Career OS
 
 Plataforma pessoal de inteligência para candidaturas profissionais.
 Um perfil como fonte de verdade, vários currículos derivados dele, análise de vagas
@@ -220,7 +220,7 @@ e essa garantia vale mais do que a conveniência de um cron.
 
 ## Candidatura assistida
 
-Ao tocar em **Preparar candidatura**, o JobPilot monta o formulário com base no
+Ao tocar em **Preparar candidatura**, o LippzAutoApply monta o formulário com base no
 perfil, no currículo recomendado e nas perguntas reais da vaga.
 
 ### Estados de cada campo
@@ -674,8 +674,7 @@ Escolhas conscientes desta primeira versão:
   a vaga custa um clique e usa o contexto atual.
 - **Excluir a conta de login** exige o painel do Supabase; a aplicação apaga todos os
   dados, mas não usa credencial administrativa em runtime — por decisão de segurança.
-- **Sem tema de alto contraste dedicado.** Existem tema escuro (padrão) e claro,
-  alternáveis na barra lateral e seguindo a preferência do sistema por padrão.
+- **Tema escuro apenas.**
 
 ---
 

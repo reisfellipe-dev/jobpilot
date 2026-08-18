@@ -42,8 +42,8 @@ const SECONDARY_ITEMS: NavItem[] = [
 function Logo({ compact }: { compact?: boolean }) {
   return (
     <div className="flex items-center gap-2">
-      <div className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-white">J</div>
-      {!compact && <span className="text-sm font-semibold tracking-tight text-ink">JobPilot</span>}
+      <div className="grid size-7 place-items-center rounded-lg bg-accent text-[13px] font-bold text-white">L</div>
+      {!compact && <span className="text-sm font-semibold tracking-tight text-ink">LippzAutoApply</span>}
     </div>
   );
 }
