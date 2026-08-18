@@ -41,12 +41,16 @@ export function ResumeDetailPage() {
   const [form, setForm] = useState<ResumeInput | null>(null);
   const [dirty, setDirty] = useState(false);
 
+  // Mesmo cuidado do ProfileForm: sincroniza a partir do servidor apenas
+  // quando o registro muda de fato (id/updatedAt) e nunca por cima de
+  // alterações não salvas. Antes dependia do objeto `resume` inteiro, então
+  // qualquer refetch em segundo plano — reconexão de rede, revalidação —
+  // reescrevia o formulário no meio da digitação e apagava o texto.
   useEffect(() => {
-    if (resume) {
-      setForm(toInput(resume));
-      setDirty(false);
-    }
-  }, [resume]);
+    if (!resume || dirty) return;
+    setForm(toInput(resume));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [resume?.id, resume?.updatedAt]);
 
   const set = <K extends keyof ResumeInput>(key: K, value: ResumeInput[K]) => {
     setForm((current) => (current ? { ...current, [key]: value } : current));

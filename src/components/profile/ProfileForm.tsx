@@ -25,11 +25,27 @@ export function ProfileForm({ profile }: { profile: Profile }) {
   const update = useUpdateProfile();
   const toast = useToast();
 
-  // Recarrega o formulário quando o servidor devolve dados mais novos.
+  // Recarrega o formulário quando o registro do perfil muda de fato.
+  //
+  // BUG CORRIGIDO: antes este efeito dependia de `profile` (o objeto inteiro),
+  // não do seu conteúdo. Toda vez que o React Query re-executava a query em
+  // segundo plano — reconexão de rede (comum em dados móveis), o app voltando
+  // do plano de fundo, ou qualquer invalidateQueries em outra aba — ele
+  // devolvia um NOVO objeto `profile` mesmo com os mesmos dados. Isso disparava
+  // o efeito, que sobrescrevia TODO o `form` com os dados antigos do servidor
+  // e resetava `dirty`, apagando o que a pessoa estava digitando no meio da
+  // digitação. Por isso o sintoma aparecia tanto nos campos simples quanto
+  // dentro de Formação/Certificações/Idiomas: o `form` inteiro era substituído.
+  //
+  // Agora o efeito só reage a um perfil REALMENTE diferente (id ou
+  // updatedAt mudou) e, além disso, nunca sobrescreve enquanto há alterações
+  // não salvas (`dirty`) — evitando perder texto mesmo se o servidor mandar
+  // um registro novo enquanto a pessoa ainda está editando.
   useEffect(() => {
+    if (dirty) return;
     setForm(toFormState(profile));
-    setDirty(false);
-  }, [profile]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [profile.id, profile.updatedAt]);
 
   const set = <K extends keyof FormState>(key: K, value: FormState[K]) => {
     setForm((current) => ({ ...current, [key]: value }));

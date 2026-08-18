@@ -225,7 +225,16 @@ export function PrepareApplicationModal({
               {plan.fields.map((field) => {
                 const meta = STATE_META[field.state];
                 const value = values[field.key] ?? '';
-                const isLong = field.type === 'textarea' || value.length > 90;
+                // O tipo do controle vem SÓ do plano, nunca do tamanho do texto
+                // digitado.
+                //
+                // BUG CORRIGIDO: antes era `field.type === 'textarea' ||
+                // value.length > 90`. Um campo que começava como <input> virava
+                // <textarea> ao passar de 90 caracteres — e o React não
+                // transforma um elemento em outro, ele destrói o primeiro e
+                // monta o segundo. Na prática o teclado fechava e o cursor
+                // sumia no meio da resposta, justamente nos campos longos.
+                const isLong = field.type === 'textarea';
 
                 return (
                   <div
@@ -267,7 +276,9 @@ export function PrepareApplicationModal({
                       <textarea
                         id={`field-${field.key}`}
                         value={value}
-                        rows={3}
+                        // Cresce conforme o texto. Mudar `rows` é seguro: o
+                        // React só atualiza o atributo, sem remontar o campo.
+                        rows={Math.min(12, Math.max(3, Math.ceil(value.length / 80)))}
                         onChange={(event) => setValues({ ...values, [field.key]: event.target.value })}
                         className="w-full resize-y rounded-lg border border-line bg-surface px-3 py-2 text-sm text-ink focus:border-accent focus:outline-none"
                       />
