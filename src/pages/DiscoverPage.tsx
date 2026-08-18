@@ -364,7 +364,7 @@ export function DiscoverPage() {
                 Limpar filtros
               </Button>
             ) : (
-              <Button variant="primary" size="sm" icon={<Radar />} onClick={handleRun} loading={runDiscovery.isPending}>
+              <Button variant="primary" size="sm" icon={<Radar />} onClick={() => handleRun(false)} loading={runDiscovery.isPending}>
                 Buscar agora
               </Button>
             )
