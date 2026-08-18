@@ -6,9 +6,16 @@
  * navegador é armazenamento persistente e não é lugar para currículo nem para
  * resposta de IA.
  */
-const VERSION = 'jobpilot-v1';
+const VERSION = 'jobpilot-v2';
 const SHELL_CACHE = `${VERSION}-shell`;
-const SHELL_URLS = ['/', '/index.html', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon.svg'];
+const SHELL_URLS = [
+  '/',
+  '/index.html',
+  '/theme-init.js',
+  '/manifest.webmanifest',
+  '/icons/icon-192.png',
+  '/icons/icon.svg',
+];
 
 self.addEventListener('install', (event) => {
   event.waitUntil(

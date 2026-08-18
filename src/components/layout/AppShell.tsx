@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
+  BookOpen,
   Briefcase,
   Compass,
   FileText,
@@ -15,6 +16,7 @@ import { cn } from '@/lib/cn';
 import { useAuth } from '@/providers/AuthProvider';
 import { useOnline } from '@/hooks/useOnline';
 import { initials } from '@/lib/format';
+import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
 interface NavItem {
   to: string;
@@ -32,7 +34,10 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 /** Perfil sai da barra inferior (5 itens é o limite confortável) e vai para o topo. */
-const SECONDARY_ITEMS: NavItem[] = [{ to: '/perfil', label: 'Perfil', shortLabel: 'Perfil', icon: User }];
+const SECONDARY_ITEMS: NavItem[] = [
+  { to: '/perfil', label: 'Perfil', shortLabel: 'Perfil', icon: User },
+  { to: '/como-funciona', label: 'Como funciona', shortLabel: 'Ajuda', icon: BookOpen },
+];
 
 function Logo({ compact }: { compact?: boolean }) {
   return (
@@ -108,6 +113,8 @@ export function AppShell() {
         </nav>
 
         <div className="border-t border-line p-3">
+          <ThemeToggle className="mb-1" />
+
           <NavLink
             to="/configuracoes"
             className={({ isActive }) =>
@@ -145,6 +152,7 @@ export function AppShell() {
       <header className="safe-top sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-base/90 px-4 backdrop-blur lg:hidden">
         <Logo />
         <div className="flex items-center gap-1">
+          <ThemeToggle compact />
           <NavLink
             to="/perfil"
             className={({ isActive }) =>

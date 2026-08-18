@@ -674,7 +674,8 @@ Escolhas conscientes desta primeira versão:
   a vaga custa um clique e usa o contexto atual.
 - **Excluir a conta de login** exige o painel do Supabase; a aplicação apaga todos os
   dados, mas não usa credencial administrativa em runtime — por decisão de segurança.
-- **Tema escuro apenas.**
+- **Sem tema de alto contraste dedicado.** Existem tema escuro (padrão) e claro,
+  alternáveis na barra lateral e seguindo a preferência do sistema por padrão.
 
 ---
 

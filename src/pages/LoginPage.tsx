@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ArrowLeft, MailCheck } from 'lucide-react';
 import { useAuth } from '@/providers/AuthProvider';
 import { Button } from '@/components/ui/Button';
@@ -182,7 +182,13 @@ export function LoginPage() {
           )}
         </div>
 
-        <p className="mt-8 text-center text-[11px] leading-relaxed text-ink-faint">
+        <p className="mt-6 text-center text-xs">
+          <Link to="/como-funciona" className="text-accent-ink underline-offset-4 transition hover:underline">
+            Como o JobPilot funciona
+          </Link>
+        </p>
+
+        <p className="mt-6 text-center text-[11px] leading-relaxed text-ink-faint">
           Seus dados ficam no seu próprio projeto Supabase, isolados por Row Level Security.
           Nenhuma informação é enviada a um provedor de IA sem sua autorização explícita.
         </p>

@@ -10,6 +10,9 @@ const LoginPage = lazy(() => import('./pages/LoginPage').then((m) => ({ default:
 const ResetPasswordPage = lazy(() =>
   import('./pages/ResetPasswordPage').then((m) => ({ default: m.ResetPasswordPage })),
 );
+const HowItWorksPage = lazy(() =>
+  import('./pages/HowItWorksPage').then((m) => ({ default: m.HowItWorksPage })),
+);
 const DashboardPage = lazy(() => import('./pages/DashboardPage').then((m) => ({ default: m.DashboardPage })));
 const ProfilePage = lazy(() => import('./pages/ProfilePage').then((m) => ({ default: m.ProfilePage })));
 const ResumesPage = lazy(() => import('./pages/ResumesPage').then((m) => ({ default: m.ResumesPage })));
@@ -102,6 +105,9 @@ export function App() {
             }
           />
           <Route path="/redefinir-senha" element={<ResetPasswordPage />} />
+
+          {/* Documentacao: publica de proposito, serve como vitrine do projeto. */}
+          <Route path="/como-funciona" element={<HowItWorksPage />} />
 
           <Route
             element={

@@ -2,8 +2,10 @@
 
 /* =============================================================================
    Design system do JobPilot
-   Referências: Linear, Vercel, Raycast. Escuro por decisão de produto:
-   uma única paleta bem executada em vez de dois temas medianos.
+   Referências: Linear, Vercel, Raycast. O escuro continua sendo o padrão e
+   define os tokens abaixo; o claro os redefine no bloco "Temas", no fim do
+   arquivo. Os dois são mantidos com o mesmo cuidado — contraste de texto
+   verificado em AA nos dois casos.
    ========================================================================== */
 @theme {
   --color-base: #08090c;
@@ -107,7 +109,7 @@
     border: 3px solid var(--color-base);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #3a424f;
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
@@ -174,7 +176,7 @@
     position: absolute;
     inset: 0;
     transform: translateX(-100%);
-    background-image: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.04), transparent);
+    background-image: linear-gradient(90deg, transparent, var(--shimmer), transparent);
     animation: shimmer 1.6s infinite;
   }
 
@@ -187,4 +189,65 @@
       transition-duration: 0.001ms !important;
     }
   }
+}
+
+/* =============================================================================
+   Temas
+   O tema escuro continua sendo o padrao e vive no @theme acima. O tema claro
+   redefine os mesmos tokens, entao nenhum componente precisa saber que existem
+   dois temas: todos usam classes semanticas (bg-base, text-ink, border-line).
+   A classe fica no <html> e e aplicada por public/theme-init.js antes da
+   primeira pintura, para nao piscar o tema errado.
+   ========================================================================== */
+html.dark {
+  color-scheme: dark;
+  --shimmer: rgb(255 255 255 / 0.04);
+  --scrollbar-thumb-hover: #3a424f;
+}
+
+html.light {
+  color-scheme: light;
+
+  /* Superficies: a pagina e cinza e os paineis sao brancos, o inverso do
+     escuro. "elevated" vira o cinza sutil de hover e chips. */
+  --color-base: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-elevated: #eceff3;
+  --color-overlay: #ffffff;
+  --color-line: #e3e7ed;
+  --color-line-strong: #c8cfd9;
+
+  /* Texto: contraste conferido contra #ffffff e #f6f7f9. */
+  --color-ink: #101828;
+  --color-ink-muted: #4a5567;
+  --color-ink-faint: #667085;
+
+  /* Indigo mais escuro que no tema escuro: #6366f1 nao tem contraste
+     suficiente sobre branco para texto e icones. */
+  --color-accent: #4f46e5;
+  --color-accent-hover: #4338ca;
+  --color-accent-soft: #eef2ff;
+  --color-accent-ink: #3730a3;
+
+  --color-success: #047857;
+  --color-success-soft: #ecfdf5;
+  --color-warning: #b45309;
+  --color-warning-soft: #fff7ed;
+  --color-danger: #be123c;
+  --color-danger-soft: #fff1f2;
+  --color-info: #0e7490;
+  --color-info-soft: #ecfeff;
+
+  /* Sombra de painel: no claro ela precisa ser sutil, senao suja a tela. */
+  --shadow-panel: 0 1px 2px rgb(16 24 40 / 0.06), 0 8px 24px -12px rgb(16 24 40 / 0.16);
+
+  --shimmer: rgb(255 255 255 / 0.65);
+  --scrollbar-thumb-hover: #98a2b3;
+}
+
+/* No escuro, "elevado" significa mais claro que a superficie. No claro, um
+   painel flutuante e branco sobre o cinza da pagina, com a sombra fazendo a
+   separacao -- por isso este unico override. */
+html.light .panel-elevated {
+  background-color: var(--color-surface);
 }
