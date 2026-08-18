@@ -59,13 +59,33 @@ export function Modal({ open, onClose, title, description, children, footer, siz
     [onClose],
   );
 
+  // O listener é lido por referência para que o efeito abaixo dependa APENAS
+  // de `open`. Sem isso, `handleKeyDown` (que muda sempre que `onClose` muda)
+  // entraria nas dependências do efeito.
+  const keyDownRef = useRef(handleKeyDown);
+  useEffect(() => {
+    keyDownRef.current = handleKeyDown;
+  }, [handleKeyDown]);
+
   useEffect(() => {
     if (!open) return;
 
+    // BUG CORRIGIDO: este efeito dependia de `handleKeyDown`, que por sua vez
+    // depende de `onClose`. Como os componentes que abrem o modal passam
+    // `onClose` como arrow inline (`onClose={() => setEditing(null)}`), ela é
+    // recriada a cada render do pai — e o estado do formulário mora no pai,
+    // então CADA TECLA digitada re-renderizava o pai e re-executava este
+    // efeito por inteiro. A limpeza devolvia o foco ao botão que abriu o
+    // modal (`previousFocus`) e o setTimeout logo em seguida movia o foco
+    // para o PRIMEIRO input do painel. Resultado: era impossível digitar em
+    // qualquer campo que não o primeiro, porque o foco voltava para ele a
+    // cada caractere. Agora o efeito roda só quando o modal abre ou fecha.
     previousFocus.current = document.activeElement as HTMLElement | null;
     const { overflow } = document.body.style;
     document.body.style.overflow = 'hidden';
-    document.addEventListener('keydown', handleKeyDown, true);
+
+    const listener = (event: KeyboardEvent) => keyDownRef.current(event);
+    document.addEventListener('keydown', listener, true);
 
     const timer = window.setTimeout(() => {
       const target = panelRef.current?.querySelector<HTMLElement>(
@@ -76,11 +96,11 @@ export function Modal({ open, onClose, title, description, children, footer, siz
 
     return () => {
       document.body.style.overflow = overflow;
-      document.removeEventListener('keydown', handleKeyDown, true);
+      document.removeEventListener('keydown', listener, true);
       window.clearTimeout(timer);
       previousFocus.current?.focus?.();
     };
-  }, [open, handleKeyDown]);
+  }, [open]);
 
   if (!open) return null;
 
