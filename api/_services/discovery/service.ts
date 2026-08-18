@@ -627,12 +627,22 @@ async function persistSyncResults(
   for (const item of results) {
     if (!item.sourceId) continue;
     const patch: Row = {
-      last_sync_at: now,
       last_status: item.status === 'ok' ? 'ok' : item.status === 'erro' ? 'erro' : 'desabilitada',
       last_error: item.error.slice(0, 1000),
       last_duration_ms: item.durationMs,
     };
+    // BUG CORRIGIDO: `last_sync_at` é o corte usado por `since` na próxima
+    // execução ("busque só o que é novo a partir daqui"). Antes ele avançava
+    // para "agora" em QUALQUER resultado, inclusive 'erro' — ou seja, uma
+    // fonte que falhou (sem checar nada de verdade) ainda "consumia" a janela
+    // incremental. Numa conta onde a primeira tentativa real falhou (ex.:
+    // durante os bugs de configuração já corrigidos), o corte ficava travado
+    // em "agora" para sempre, e cada busca seguinte só perguntava por vagas
+    // publicadas nos últimos minutos — que em quadros de vaga quase nunca
+    // existem. Resultado: "nunca encontra vaga", mesmo com as fontes saudáveis.
+    // Agora só avança quando a fonte de fato foi consultada com sucesso.
     if (item.status === 'ok') {
+      patch.last_sync_at = now;
       patch.consecutive_failures = 0;
       patch.total_jobs_found = item.jobsFound;
     }

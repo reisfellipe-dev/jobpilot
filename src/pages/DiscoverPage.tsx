@@ -95,9 +95,9 @@ export function DiscoverPage() {
     setLastRun(null);
   }, [quick, search]);
 
-  const handleRun = () => {
+  const handleRun = (full = false) => {
     runDiscovery.mutate(
-      {},
+      { full },
       {
         onSuccess: (result) => {
           setLastRun(result);
@@ -138,14 +138,24 @@ export function DiscoverPage() {
         title="Descobrir"
         description="Vagas encontradas nas fontes públicas conectadas ao seu perfil."
         actions={
-          <Button
-            variant="primary"
-            icon={runDiscovery.isPending ? undefined : <Radar />}
-            onClick={handleRun}
-            loading={runDiscovery.isPending}
-          >
-            {runDiscovery.isPending ? 'Buscando vagas…' : 'Buscar novas vagas'}
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="primary"
+              icon={runDiscovery.isPending ? undefined : <Radar />}
+              onClick={() => handleRun(false)}
+              loading={runDiscovery.isPending}
+            >
+              {runDiscovery.isPending ? 'Buscando vagas…' : 'Buscar novas vagas'}
+            </Button>
+            <Button
+              variant="ghost"
+              onClick={() => handleRun(true)}
+              loading={runDiscovery.isPending}
+              title="Ignora o corte incremental e revarre cada fonte inteira, do zero."
+            >
+              Revarrer tudo
+            </Button>
+          </div>
         }
       />
 
