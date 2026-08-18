@@ -7,6 +7,7 @@ import {
   FileText,
   LayoutDashboard,
   LogOut,
+  Menu,
   Send,
   Settings,
   User,
@@ -15,8 +16,10 @@ import {
 import { cn } from '@/lib/cn';
 import { useAuth } from '@/providers/AuthProvider';
 import { useOnline } from '@/hooks/useOnline';
+import { useProfile } from '@/hooks/queries';
 import { initials } from '@/lib/format';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { MobileMenu } from './MobileMenu';
 
 interface NavItem {
   to: string;
@@ -54,10 +57,18 @@ export function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const [signingOut, setSigningOut] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const { data: profileBundle } = useProfile();
 
   // Rolar para o topo ao trocar de página (importante no mobile).
   useEffect(() => {
     window.scrollTo({ top: 0 });
+  }, [location.pathname]);
+
+  // Fecha o menu-hambúrguer ao navegar (o NavLink dentro dele já faz isso,
+  // isto cobre navegação por outros meios, ex.: voltar do navegador).
+  useEffect(() => {
+    setMenuOpen(false);
   }, [location.pathname]);
 
   const handleSignOut = async () => {
@@ -67,6 +78,8 @@ export function AppShell() {
   };
 
   const email = user?.email ?? '';
+  const displayName = profileBundle?.profile.fullName || email;
+  const avatarUrl = profileBundle?.profile.avatarUrl ?? '';
 
   return (
     <div className="min-h-dvh bg-base">
@@ -129,11 +142,15 @@ export function AppShell() {
           </NavLink>
 
           <div className="mt-2 flex items-center gap-2 rounded-lg px-2 py-2">
-            <div className="grid size-7 shrink-0 place-items-center rounded-full bg-elevated text-[11px] font-semibold text-ink-muted">
-              {initials(email)}
+            <div className="grid size-7 shrink-0 place-items-center overflow-hidden rounded-full bg-elevated text-[11px] font-semibold text-ink-muted">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="" className="size-full object-cover" />
+              ) : (
+                initials(displayName)
+              )}
             </div>
             <span className="min-w-0 flex-1 truncate text-xs text-ink-muted" title={email}>
-              {email}
+              {displayName}
             </span>
             <button
               type="button"
@@ -151,43 +168,31 @@ export function AppShell() {
       {/* --- Barra superior (mobile) --- */}
       <header className="safe-top sticky top-0 z-30 flex h-14 items-center justify-between border-b border-line bg-base/90 px-4 backdrop-blur lg:hidden">
         <Logo />
-        <div className="flex items-center gap-1">
-          <ThemeToggle compact />
-          <NavLink
-            to="/perfil"
-            className={({ isActive }) =>
-              cn(
-                'grid size-10 place-items-center rounded-lg transition-colors',
-                isActive ? 'bg-accent-soft text-accent-ink' : 'text-ink-muted hover:bg-elevated',
-              )
-            }
-            aria-label="Perfil"
-          >
-            <User className="size-4" aria-hidden />
-          </NavLink>
-          <NavLink
-            to="/configuracoes"
-            className={({ isActive }) =>
-              cn(
-                'grid size-10 place-items-center rounded-lg transition-colors',
-                isActive ? 'bg-accent-soft text-accent-ink' : 'text-ink-muted hover:bg-elevated',
-              )
-            }
-            aria-label="Configurações"
-          >
-            <Settings className="size-4" aria-hidden />
-          </NavLink>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            disabled={signingOut}
-            className="grid size-10 place-items-center rounded-lg text-ink-muted transition-colors hover:bg-elevated hover:text-danger disabled:opacity-50"
-            aria-label="Sair da conta"
-          >
-            <LogOut className="size-4" aria-hidden />
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => setMenuOpen(true)}
+          className="grid size-10 place-items-center rounded-lg text-ink-muted transition-colors hover:bg-elevated hover:text-ink"
+          aria-label="Abrir menu"
+        >
+          {avatarUrl ? (
+            <span className="grid size-7 place-items-center overflow-hidden rounded-full bg-elevated">
+              <img src={avatarUrl} alt="" className="size-full object-cover" />
+            </span>
+          ) : (
+            <Menu className="size-5" aria-hidden />
+          )}
+        </button>
       </header>
+
+      <MobileMenu
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        displayName={displayName}
+        email={email}
+        avatarUrl={avatarUrl}
+        onSignOut={handleSignOut}
+        signingOut={signingOut}
+      />
 
       <main id="conteudo" className="lg:pl-56">
         <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-5 sm:px-6 sm:pt-6 lg:pb-10">

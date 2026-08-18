@@ -41,6 +41,7 @@ export type LanguageEntry = z.infer<typeof languageSchema>;
  */
 export const profileInputSchema = z.object({
   fullName: optionalText(140),
+  avatarUrl: urlSchema,
   email: z
     .string()
     .trim()

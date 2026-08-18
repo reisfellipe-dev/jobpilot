@@ -11,6 +11,7 @@ import { InlineError } from '@/components/ui/States';
 import { educationStatusOptions, languageLevelOptions, seniorityOptions } from '@/lib/options';
 import { useToast } from '@/providers/ToastProvider';
 import { useUpdateProfile } from '@/hooks/queries';
+import { AvatarUploader } from './AvatarUploader';
 
 type FormState = Omit<Profile, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -69,6 +70,10 @@ export function ProfileForm({ profile }: { profile: Profile }) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-5">
+      <Card>
+        <AvatarUploader profile={profile} />
+      </Card>
+
       <Card>
         <SectionTitle title="Identificação" description="Base de todos os currículos e textos gerados." />
         <div className="mt-4 grid gap-4 sm:grid-cols-2">

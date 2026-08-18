@@ -49,6 +49,7 @@ export function toProfile(row: Row): Profile {
   return {
     id: str(row.id),
     fullName: str(row.full_name),
+    avatarUrl: str(row.avatar_url),
     email: str(row.email),
     phone: str(row.phone),
     location: str(row.location),
@@ -72,6 +73,7 @@ export function toProfile(row: Row): Profile {
 export function fromProfile(input: Omit<Profile, 'id' | 'createdAt' | 'updatedAt'>): Row {
   return {
     full_name: input.fullName,
+    avatar_url: input.avatarUrl,
     email: input.email,
     phone: input.phone,
     location: input.location,
