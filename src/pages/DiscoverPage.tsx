@@ -215,7 +215,12 @@ export function DiscoverPage() {
               <ul className="mt-1.5 space-y-0.5 text-accent-ink/80">
                 {lastRun.results.map((item) => (
                   <li key={`${item.kind}-${item.sourceId}`}>
-                    {item.label}: {item.status === 'ok' ? `${item.jobsNew} nova(s) de ${item.jobsFound}` : item.error}
+                    {item.label}:{' '}
+                    {item.status === 'ok'
+                      ? `${item.jobsNew} nova(s) de ${item.jobsFound}` +
+                        (item.jobsFiltered > 0 ? ` (${item.jobsFiltered} descartada(s) pelo perfil)` : '') +
+                        (item.jobsDuplicated > 0 ? ` · ${item.jobsDuplicated} duplicada(s)` : '')
+                      : item.error}
                   </li>
                 ))}
               </ul>

@@ -428,6 +428,11 @@ export async function runDiscovery(ctx: DiscoveryContext, options: RunOptions = 
     })),
   );
 
+  // DIAGNÓSTICO TEMPORÁRIO: sobreviveram ao pré-filtro (collected) vs grupos
+  // após dedupe dentro do lote (groups). Ajuda a separar "pré-filtro descartou
+  // tudo" de "algo falha ao gravar no banco depois do dedupe". Remover depois.
+  console.log(`[discovery][diag] pos-prefiltro=${collected.length} pos-dedupe=${groups.length}`);
+
   let totalNew = 0;
   let totalUpdated = 0;
   let totalDuplicated = 0;
