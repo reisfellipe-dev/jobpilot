@@ -1,14 +1,14 @@
 /** Rotas de vagas e da análise/matching (§20/§21/§22/§30). */
 import { z } from 'zod';
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { notFound } from '../_lib/errors';
-import { uuidSchema } from '../../shared/schemas/common';
-import { jobInputSchema, type JobAnalysisRecord } from '../../shared/schemas/job';
-import { JOB_STATUSES } from '../../shared/constants';
-import { fromJob, toJob, toJobAnalysisRecord } from '../_services/mappers';
-import { analysisFingerprint, getJob, getProfileBundle, getSettings, listResumes } from '../_services/repository';
-import { analyzeJobWithMatching } from '../_services/ai-operations';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { notFound } from '../_lib/errors.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
+import { jobInputSchema, type JobAnalysisRecord } from '../../shared/schemas/job.js';
+import { JOB_STATUSES } from '../../shared/constants.js';
+import { fromJob, toJob, toJobAnalysisRecord } from '../_services/mappers.js';
+import { analysisFingerprint, getJob, getProfileBundle, getSettings, listResumes } from '../_services/repository.js';
+import { analyzeJobWithMatching } from '../_services/ai-operations.js';
 
 type Row = Record<string, unknown>;
 

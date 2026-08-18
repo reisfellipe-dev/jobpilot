@@ -7,24 +7,24 @@
  *  - aplicar guardas deterministicas sobre a saida da IA (§18);
  *  - registrar o provider realmente utilizado (§6).
  */
-import { ApiError } from '../_lib/errors';
-import type { Db } from '../_lib/supabase';
-import type { AnswerKind } from '../../shared/constants';
-import { MAX_JOB_TEXT_CHARS, MAX_RESUME_TEXT_CHARS } from '../../shared/constants';
-import type { Job, JobAnalysis, ResumeMatch } from '../../shared/schemas/job';
-import type { Resume, ResumeContent } from '../../shared/schemas/resume';
-import { rankResumes, applySemanticAdjustment, MAX_SEMANTIC_ADJUSTMENT } from '../../shared/matching/score';
-import { enforceResumeIntegrity, type IntegrityViolation } from '../../shared/guards/resume-integrity';
-import { getAIService, type AIOperation, type AIUserPreferences } from './ai/service';
-import { buildResumeExtractionPrompt, resumeExtractionSchema, type ResumeExtraction } from './ai/prompts/resume-extraction';
-import { buildJobExtractionPrompt, jobExtractionSchema, type JobExtraction } from './ai/prompts/job-extraction';
-import { buildJobAnalysisPrompt, jobAnalysisSchema } from './ai/prompts/job-analysis';
-import { buildSemanticMatchPrompt, semanticMatchSchema } from './ai/prompts/semantic-match';
-import { buildResumeAdaptationPrompt, resumeAdaptationSchema } from './ai/prompts/resume-adaptation';
-import { answerMaxTokens, buildAnswerPrompt, generatedAnswerSchema } from './ai/prompts/answers';
-import type { ProfileContextInput } from './ai/prompts/context';
-import { consumeAIQuota, finalizeAIUsage, type AIOperationName } from './ratelimit';
-import type { UserSettings } from './mappers';
+import { ApiError } from '../_lib/errors.js';
+import type { Db } from '../_lib/supabase.js';
+import type { AnswerKind } from '../../shared/constants.js';
+import { MAX_JOB_TEXT_CHARS, MAX_RESUME_TEXT_CHARS } from '../../shared/constants.js';
+import type { Job, JobAnalysis, ResumeMatch } from '../../shared/schemas/job.js';
+import type { Resume, ResumeContent } from '../../shared/schemas/resume.js';
+import { rankResumes, applySemanticAdjustment, MAX_SEMANTIC_ADJUSTMENT } from '../../shared/matching/score.js';
+import { enforceResumeIntegrity, type IntegrityViolation } from '../../shared/guards/resume-integrity.js';
+import { getAIService, type AIOperation, type AIUserPreferences } from './ai/service.js';
+import { buildResumeExtractionPrompt, resumeExtractionSchema, type ResumeExtraction } from './ai/prompts/resume-extraction.js';
+import { buildJobExtractionPrompt, jobExtractionSchema, type JobExtraction } from './ai/prompts/job-extraction.js';
+import { buildJobAnalysisPrompt, jobAnalysisSchema } from './ai/prompts/job-analysis.js';
+import { buildSemanticMatchPrompt, semanticMatchSchema } from './ai/prompts/semantic-match.js';
+import { buildResumeAdaptationPrompt, resumeAdaptationSchema } from './ai/prompts/resume-adaptation.js';
+import { answerMaxTokens, buildAnswerPrompt, generatedAnswerSchema } from './ai/prompts/answers.js';
+import type { ProfileContextInput } from './ai/prompts/context.js';
+import { consumeAIQuota, finalizeAIUsage, type AIOperationName } from './ratelimit.js';
+import type { UserSettings } from './mappers.js';
 
 export interface AICtx {
   db: Db;

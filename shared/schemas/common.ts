@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { SENIORITY_LEVELS, WORK_MODES } from '../constants';
+import { SENIORITY_LEVELS, WORK_MODES } from '../constants.js';
 
 export const uuidSchema = z.string().uuid('Identificador inválido');
 

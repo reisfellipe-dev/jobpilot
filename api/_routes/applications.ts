@@ -1,16 +1,16 @@
 /** Rotas de candidaturas e respostas geradas (§25/§26). */
 import { z } from 'zod';
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { badRequest, notFound } from '../_lib/errors';
-import { uuidSchema } from '../../shared/schemas/common';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { badRequest, notFound } from '../_lib/errors.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
 import {
   applicationAnswerInputSchema,
   applicationInputSchema,
   type ApplicationListItem,
-} from '../../shared/schemas/application';
-import { APPLICATION_STATUSES } from '../../shared/constants';
-import { toApplication, toApplicationAnswer } from '../_services/mappers';
+} from '../../shared/schemas/application.js';
+import { APPLICATION_STATUSES } from '../../shared/constants.js';
+import { toApplication, toApplicationAnswer } from '../_services/mappers.js';
 
 type Row = Record<string, unknown>;
 

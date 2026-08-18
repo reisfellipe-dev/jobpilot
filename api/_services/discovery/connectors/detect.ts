@@ -9,7 +9,7 @@ import {
   UNSUPPORTED_SOURCE_INFO,
   type SourceKind,
   type UnsupportedSourceInfo,
-} from '../../../../shared/discovery/types';
+} from '../../../../shared/discovery/types.js';
 
 export type DetectionResult =
   | { status: 'supported'; kind: SourceKind; identifier: string; label: string; sourceUrl: string }

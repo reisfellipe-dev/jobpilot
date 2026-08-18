@@ -12,18 +12,18 @@
  * sejam interpretados como glob na configuração de `functions`.
  */
 import type { VercelRequest, VercelResponse } from '@vercel/node';
-import { handleRequest, route, type Route } from './_lib/router';
-import { describeEnv, getEnv } from './_lib/env';
-import { profileRoutes } from './_routes/profile';
-import { resumeRoutes } from './_routes/resumes';
-import { jobRoutes } from './_routes/jobs';
-import { applicationRoutes } from './_routes/applications';
-import { aiRoutes } from './_routes/ai';
-import { settingsRoutes } from './_routes/settings';
-import { dataRoutes } from './_routes/data';
-import { dashboardRoutes } from './_routes/dashboard';
-import { discoveryRoutes } from './_routes/discovery';
-import { applicationAssistRoutes } from './_routes/application-assist';
+import { handleRequest, route, type Route } from './_lib/router.js';
+import { describeEnv, getEnv } from './_lib/env.js';
+import { profileRoutes } from './_routes/profile.js';
+import { resumeRoutes } from './_routes/resumes.js';
+import { jobRoutes } from './_routes/jobs.js';
+import { applicationRoutes } from './_routes/applications.js';
+import { aiRoutes } from './_routes/ai.js';
+import { settingsRoutes } from './_routes/settings.js';
+import { dataRoutes } from './_routes/data.js';
+import { dashboardRoutes } from './_routes/dashboard.js';
+import { discoveryRoutes } from './_routes/discovery.js';
+import { applicationAssistRoutes } from './_routes/application-assist.js';
 
 const healthRoutes: Route[] = [
   route(

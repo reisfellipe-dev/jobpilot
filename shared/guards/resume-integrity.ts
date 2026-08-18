@@ -6,8 +6,8 @@
  * exista na fonte de verdade: empresas, cargos, datas, skills, certificacoes,
  * formacao e idiomas. As violacoes sao devolvidas para exibicao ao usuario.
  */
-import type { ResumeContent } from '../schemas/resume';
-import { canonicalSkill, normalizeText } from '../matching/normalize';
+import type { ResumeContent } from '../schemas/resume.js';
+import { canonicalSkill, normalizeText } from '../matching/normalize.js';
 
 export interface IntegrityViolation {
   type: 'experiencia' | 'skill' | 'certificacao' | 'formacao' | 'idioma' | 'data' | 'projeto';

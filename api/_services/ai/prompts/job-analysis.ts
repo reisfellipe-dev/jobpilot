@@ -2,10 +2,10 @@
  * Prompt: analise completa de vaga (§21).
  * Saida usada tanto pela UI quanto como insumo do score deterministico.
  */
-import { jobAnalysisSchema } from '../../../../shared/schemas/job';
-import type { Job } from '../../../../shared/schemas/job';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy';
-import { buildJobContext } from './context';
+import { jobAnalysisSchema } from '../../../../shared/schemas/job.js';
+import type { Job } from '../../../../shared/schemas/job.js';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy.js';
+import { buildJobContext } from './context.js';
 
 export { jobAnalysisSchema };
 

@@ -8,8 +8,8 @@ import {
   text,
   urlSchema,
   uuidSchema,
-} from './common';
-import { WORK_MODES } from '../constants';
+} from './common.js';
+import { WORK_MODES } from '../constants.js';
 
 export const educationSchema = z.object({
   institution: text(160, 1),

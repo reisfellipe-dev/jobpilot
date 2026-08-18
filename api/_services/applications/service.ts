@@ -5,13 +5,13 @@
  * e devolve um plano revisável. Não envia nada: o usuário permanece no controle
  * do envio do começo ao fim (§17).
  */
-import { mapDbError, type Db } from '../../_lib/supabase';
-import { notFound } from '../../_lib/errors';
-import type { ApplicationPlan } from '../../../shared/discovery/schemas';
-import { getApplicationConnector } from './connectors';
-import { mapQuestions, type MapperProfile } from './field-mapping';
-import { getProfileBundle, getResume, listResumes } from '../repository';
-import { toJob } from '../mappers';
+import { mapDbError, type Db } from '../../_lib/supabase.js';
+import { notFound } from '../../_lib/errors.js';
+import type { ApplicationPlan } from '../../../shared/discovery/schemas.js';
+import { getApplicationConnector } from './connectors.js';
+import { mapQuestions, type MapperProfile } from './field-mapping.js';
+import { getProfileBundle, getResume, listResumes } from '../repository.js';
+import { toJob } from '../mappers.js';
 
 type Row = Record<string, unknown>;
 

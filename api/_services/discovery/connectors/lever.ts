@@ -8,8 +8,8 @@
  * O slug sai da URL de carreiras (jobs.lever.co/nome → "nome"). Slug inválido
  * devolve 404 e o cadastro da fonte é recusado na hora — nada de fonte fantasma.
  */
-import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types';
-import { fetchJson } from '../http';
+import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types.js';
+import { fetchJson } from '../http.js';
 
 const BASE = 'https://api.lever.co/v0/postings';
 

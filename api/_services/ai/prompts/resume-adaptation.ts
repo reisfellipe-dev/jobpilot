@@ -5,11 +5,11 @@
  * exige aprovacao explicita do usuario.
  */
 import { z } from 'zod';
-import { resumeContentSchema } from '../../../../shared/schemas/resume';
-import type { Resume } from '../../../../shared/schemas/resume';
-import type { Job, JobAnalysis } from '../../../../shared/schemas/job';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy';
-import { buildAnalysisContext, buildJobContext, buildResumeContext } from './context';
+import { resumeContentSchema } from '../../../../shared/schemas/resume.js';
+import type { Resume } from '../../../../shared/schemas/resume.js';
+import type { Job, JobAnalysis } from '../../../../shared/schemas/job.js';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy.js';
+import { buildAnalysisContext, buildJobContext, buildResumeContext } from './context.js';
 
 export const resumeAdaptationSchema = z.object({
   content: resumeContentSchema,

@@ -8,9 +8,9 @@
  *
  * Puro e determinístico: mesma entrada, mesma saída. Coberto por testes.
  */
-import { canonicalSkill, canonicalSkills, containsTerm, normalizeText, tokenize } from '../matching/normalize';
-import { toPlainText } from './html';
-import type { FieldOrigins, NormalizedJob, RawJob, SourceKind } from './types';
+import { canonicalSkill, canonicalSkills, containsTerm, normalizeText, tokenize } from '../matching/normalize.js';
+import { toPlainText } from './html.js';
+import type { FieldOrigins, NormalizedJob, RawJob, SourceKind } from './types.js';
 import {
   AMBIGUOUS_TECH_PATTERNS,
   CLOSING_HEADINGS,
@@ -22,8 +22,8 @@ import {
   REQUIREMENT_HEADINGS,
   SENIORITY_PATTERNS,
   TECH_VOCABULARY,
-} from './vocabulary';
-import { buildFingerprint } from './fingerprint';
+} from './vocabulary.js';
+import { buildFingerprint } from './fingerprint.js';
 
 const MAX_DESCRIPTION = 30_000;
 const MAX_REQUIREMENTS = 40;

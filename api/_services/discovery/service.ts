@@ -12,23 +12,23 @@
  *  2. Falha de uma fonte não derruba a execução (§35).
  *  3. Nada é inventado: campo ausente na fonte permanece ausente (§3).
  */
-import type { Db } from '../../_lib/supabase';
-import { mapDbError } from '../../_lib/supabase';
-import { ApiError } from '../../_lib/errors';
-import type { Resume } from '../../../shared/schemas/resume';
-import { rankResumes } from '../../../shared/matching/score';
-import { normalizeCompanyName } from '../../../shared/discovery/fingerprint';
-import { groupDuplicates, isLikelyDuplicate } from '../../../shared/discovery/fingerprint';
-import { normalizeRawJob } from '../../../shared/discovery/normalize';
-import { buildSearchStrategy, preFilter, type SearchStrategy } from '../../../shared/discovery/query-strategy';
-import { relevanceScore } from '../../../shared/discovery/ranking';
-import type { NormalizedJob, SourceKind } from '../../../shared/discovery/types';
-import { SENIORITY_LEVELS, WORK_MODES, type Seniority, type WorkMode } from '../../../shared/constants';
-import type { DiscoveryRunResult, SyncResultItem } from '../../../shared/discovery/schemas';
-import { getConnector, DEFAULT_AGGREGATORS } from './connectors/registry';
-import { describeHttpError, mapWithConcurrency } from './http';
-import { getProfileBundle, getSettings, listResumes } from '../repository';
-import type { UserSettings } from '../mappers';
+import type { Db } from '../../_lib/supabase.js';
+import { mapDbError } from '../../_lib/supabase.js';
+import { ApiError } from '../../_lib/errors.js';
+import type { Resume } from '../../../shared/schemas/resume.js';
+import { rankResumes } from '../../../shared/matching/score.js';
+import { normalizeCompanyName } from '../../../shared/discovery/fingerprint.js';
+import { groupDuplicates, isLikelyDuplicate } from '../../../shared/discovery/fingerprint.js';
+import { normalizeRawJob } from '../../../shared/discovery/normalize.js';
+import { buildSearchStrategy, preFilter, type SearchStrategy } from '../../../shared/discovery/query-strategy.js';
+import { relevanceScore } from '../../../shared/discovery/ranking.js';
+import type { NormalizedJob, SourceKind } from '../../../shared/discovery/types.js';
+import { SENIORITY_LEVELS, WORK_MODES, type Seniority, type WorkMode } from '../../../shared/constants.js';
+import type { DiscoveryRunResult, SyncResultItem } from '../../../shared/discovery/schemas.js';
+import { getConnector, DEFAULT_AGGREGATORS } from './connectors/registry.js';
+import { describeHttpError, mapWithConcurrency } from './http.js';
+import { getProfileBundle, getSettings, listResumes } from '../repository.js';
+import type { UserSettings } from '../mappers.js';
 
 type Row = Record<string, unknown>;
 

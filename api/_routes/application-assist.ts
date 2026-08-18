@@ -1,9 +1,9 @@
 /** Rotas da candidatura assistida (§15–§20). Nenhuma envia candidatura (§17). */
 import { z } from 'zod';
-import { parseWith, route, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { uuidSchema } from '../../shared/schemas/common';
-import { buildApplicationPlan, saveFieldAnswer } from '../_services/applications/service';
+import { parseWith, route, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
+import { buildApplicationPlan, saveFieldAnswer } from '../_services/applications/service.js';
 
 type Row = Record<string, unknown>;
 

@@ -1,8 +1,8 @@
 /** Agregados da tela inicial (§31). Calculados no servidor para evitar tráfego desnecessário. */
-import { route, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { APPLICATION_STATUSES, type ApplicationStatus } from '../../shared/constants';
-import { toJobAnalysisRecord } from '../_services/mappers';
+import { route, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { APPLICATION_STATUSES, type ApplicationStatus } from '../../shared/constants.js';
+import { toJobAnalysisRecord } from '../_services/mappers.js';
 
 type Row = Record<string, unknown>;
 

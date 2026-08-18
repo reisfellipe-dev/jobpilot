@@ -1,19 +1,19 @@
 /** Rotas de IA. Todo acesso a provider passa por aqui - nunca pelo navegador (§4). */
 import { z } from 'zod';
-import { parseWith, route, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { uuidSchema } from '../../shared/schemas/common';
-import { ANSWER_KINDS, MAX_JOB_TEXT_CHARS, MAX_RESUME_TEXT_CHARS } from '../../shared/constants';
-import { jobAnalysisSchema, type JobAnalysis } from '../../shared/schemas/job';
-import { getAIService } from '../_services/ai/service';
+import { parseWith, route, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
+import { ANSWER_KINDS, MAX_JOB_TEXT_CHARS, MAX_RESUME_TEXT_CHARS } from '../../shared/constants.js';
+import { jobAnalysisSchema, type JobAnalysis } from '../../shared/schemas/job.js';
+import { getAIService } from '../_services/ai/service.js';
 import {
   adaptResumeForJob,
   extractJobFromText,
   extractResumeFromText,
   generateApplicationAnswer,
-} from '../_services/ai-operations';
-import { getJob, getProfileBundle, getResume, getSettings, listSkills } from '../_services/repository';
-import { AI_QUOTAS } from '../_services/ratelimit';
+} from '../_services/ai-operations.js';
+import { getJob, getProfileBundle, getResume, getSettings, listSkills } from '../_services/repository.js';
+import { AI_QUOTAS } from '../_services/ratelimit.js';
 
 type Row = Record<string, unknown>;
 

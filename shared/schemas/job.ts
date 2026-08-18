@@ -9,8 +9,8 @@ import {
   urlSchema,
   uuidSchema,
   workModeSchema,
-} from './common';
-import { JOB_STATUSES } from '../constants';
+} from './common.js';
+import { JOB_STATUSES } from '../constants.js';
 
 export const jobInputSchema = z.object({
   company: optionalText(160),

@@ -6,12 +6,12 @@
  * Uma unica chamada avalia todos os curriculos - menos custo e comparacao real.
  */
 import { z } from 'zod';
-import { semanticAssessmentSchema } from '../../../../shared/schemas/job';
-import type { JobAnalysis, ResumeMatch } from '../../../../shared/schemas/job';
-import type { Job } from '../../../../shared/schemas/job';
-import type { Resume } from '../../../../shared/schemas/resume';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy';
-import { buildAnalysisContext, buildJobContext, buildResumeSummary } from './context';
+import { semanticAssessmentSchema } from '../../../../shared/schemas/job.js';
+import type { JobAnalysis, ResumeMatch } from '../../../../shared/schemas/job.js';
+import type { Job } from '../../../../shared/schemas/job.js';
+import type { Resume } from '../../../../shared/schemas/resume.js';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy.js';
+import { buildAnalysisContext, buildJobContext, buildResumeSummary } from './context.js';
 
 export const semanticMatchSchema = z.object({
   assessments: z

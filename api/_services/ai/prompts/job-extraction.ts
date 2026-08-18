@@ -3,9 +3,9 @@
  * Nunca inventa empresa, beneficio ou requisito que nao esteja no texto.
  */
 import { z } from 'zod';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy';
-import { truncate } from './context';
-import { MAX_JOB_TEXT_CHARS } from '../../../../shared/constants';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy.js';
+import { truncate } from './context.js';
+import { MAX_JOB_TEXT_CHARS } from '../../../../shared/constants.js';
 
 export const jobExtractionSchema = z.object({
   company: z.string().max(160).default(''),

@@ -3,12 +3,12 @@
  * Um unico construtor parametrizado por tipo de resposta, com instrucoes
  * especificas por tipo e a mesma politica anti-alucinacao.
  */
-import type { AnswerKind } from '../../../../shared/constants';
-import { generatedAnswerSchema } from '../../../../shared/schemas/application';
-import type { Job, JobAnalysis } from '../../../../shared/schemas/job';
-import type { Resume } from '../../../../shared/schemas/resume';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY, toneInstruction } from './policy';
-import { buildAnalysisContext, buildJobContext, buildResumeContext, type ProfileContextInput, buildProfileContext } from './context';
+import type { AnswerKind } from '../../../../shared/constants.js';
+import { generatedAnswerSchema } from '../../../../shared/schemas/application.js';
+import type { Job, JobAnalysis } from '../../../../shared/schemas/job.js';
+import type { Resume } from '../../../../shared/schemas/resume.js';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY, toneInstruction } from './policy.js';
+import { buildAnalysisContext, buildJobContext, buildResumeContext, type ProfileContextInput, buildProfileContext } from './context.js';
 
 export { generatedAnswerSchema };
 

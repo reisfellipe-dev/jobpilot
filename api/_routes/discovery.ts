@@ -1,9 +1,9 @@
 /** Rotas do Discovery Engine (§6, §11, §12, §26, §37). */
 import { z } from 'zod';
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { ApiError, badRequest, notFound } from '../_lib/errors';
-import { uuidSchema } from '../../shared/schemas/common';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { ApiError, badRequest, notFound } from '../_lib/errors.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
 import {
   detectSourceSchema,
   discoveryFiltersSchema,
@@ -13,7 +13,7 @@ import {
   type DiscoveredJob,
   type DiscoveredJobMatch,
   type SourceHealth,
-} from '../../shared/discovery/schemas';
+} from '../../shared/discovery/schemas.js';
 import {
   SOURCE_ATTRIBUTION,
   SOURCE_LABEL,
@@ -21,14 +21,14 @@ import {
   UNSUPPORTED_SOURCE_INFO,
   type FieldOrigins,
   type SourceKind,
-} from '../../shared/discovery/types';
-import { recencyInfo, relevanceScore } from '../../shared/discovery/ranking';
-import { detectSource, unknownHostMessage } from '../_services/discovery/connectors/detect';
-import { getConnector, listConnectors } from '../_services/discovery/connectors/registry';
-import { describeHttpError } from '../_services/discovery/http';
-import { buildStrategyForUser, ensureDefaultSources, runDiscovery } from '../_services/discovery/service';
-import { getSettings } from '../_services/repository';
-import { consumeAIQuota } from '../_services/ratelimit';
+} from '../../shared/discovery/types.js';
+import { recencyInfo, relevanceScore } from '../../shared/discovery/ranking.js';
+import { detectSource, unknownHostMessage } from '../_services/discovery/connectors/detect.js';
+import { getConnector, listConnectors } from '../_services/discovery/connectors/registry.js';
+import { describeHttpError } from '../_services/discovery/http.js';
+import { buildStrategyForUser, ensureDefaultSources, runDiscovery } from '../_services/discovery/service.js';
+import { getSettings } from '../_services/repository.js';
+import { consumeAIQuota } from '../_services/ratelimit.js';
 
 type Row = Record<string, unknown>;
 

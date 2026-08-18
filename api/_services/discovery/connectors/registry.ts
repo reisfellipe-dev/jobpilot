@@ -4,11 +4,11 @@
  * O DiscoveryService só conhece este registro — adicionar uma fonte nova é
  * escrever um conector e registrá-lo aqui. Nenhuma linha do motor muda.
  */
-import type { JobSourceConnector, SourceKind } from '../../../../shared/discovery/types';
-import { greenhouseConnector } from './greenhouse';
-import { leverConnector } from './lever';
-import { ashbyConnector } from './ashby';
-import { arbeitnowConnector, remoteOkConnector, remotiveConnector } from './aggregators';
+import type { JobSourceConnector, SourceKind } from '../../../../shared/discovery/types.js';
+import { greenhouseConnector } from './greenhouse.js';
+import { leverConnector } from './lever.js';
+import { ashbyConnector } from './ashby.js';
+import { arbeitnowConnector, remoteOkConnector, remotiveConnector } from './aggregators.js';
 
 const CONNECTORS: Record<SourceKind, JobSourceConnector> = {
   greenhouse: greenhouseConnector,

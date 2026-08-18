@@ -5,7 +5,7 @@
  * vaga é possível dizer exatamente por que ela está naquela posição.
  * A IA não participa deste cálculo.
  */
-import type { ResumeMatch } from '../schemas/job';
+import type { ResumeMatch } from '../schemas/job.js';
 
 /** Peso da aderência contra o peso da recência na nota final. */
 export const RELEVANCE_WEIGHTS = { match: 0.72, recency: 0.28 } as const;

@@ -8,8 +8,8 @@
  * É a fonte mais rica das três: entrega modalidade, tipo de contratação e,
  * quando a empresa publica, a faixa salarial — tudo como dado de fonte.
  */
-import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types';
-import { fetchJson } from '../http';
+import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types.js';
+import { fetchJson } from '../http.js';
 
 const BASE = 'https://api.ashbyhq.com/posting-api/job-board';
 

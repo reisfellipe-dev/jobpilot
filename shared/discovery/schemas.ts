@@ -1,8 +1,8 @@
 /** Contratos de API do Discovery Engine, compartilhados entre cliente e servidor. */
 import { z } from 'zod';
-import { uuidSchema } from '../schemas/common';
-import { SENIORITY_LEVELS, WORK_MODES } from '../constants';
-import { SOURCE_KINDS, type ApplicationMethod, type DataState, type FieldOrigins, type SourceKind } from './types';
+import { uuidSchema } from '../schemas/common.js';
+import { SENIORITY_LEVELS, WORK_MODES } from '../constants.js';
+import { SOURCE_KINDS, type ApplicationMethod, type DataState, type FieldOrigins, type SourceKind } from './types.js';
 
 export const sourceKindSchema = z.enum(SOURCE_KINDS);
 

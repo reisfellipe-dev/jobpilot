@@ -9,9 +9,9 @@
  * O board token sai da URL de carreiras da empresa
  * (ex.: boards.greenhouse.io/nubank → "nubank").
  */
-import { decodeEntities } from '../../../../shared/discovery/html';
-import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types';
-import { fetchJson } from '../http';
+import { decodeEntities } from '../../../../shared/discovery/html.js';
+import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types.js';
+import { fetchJson } from '../http.js';
 
 const BASE = 'https://boards-api.greenhouse.io/v1/boards';
 

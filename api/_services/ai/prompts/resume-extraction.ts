@@ -5,11 +5,11 @@
  * Restricoes : politica anti-alucinacao; campos ausentes ficam vazios.
  */
 import { z } from 'zod';
-import { seniaritySchema, stringList } from '../../../../shared/schemas/common';
-import { resumeContentSchema } from '../../../../shared/schemas/resume';
-import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy';
-import { truncate } from './context';
-import { MAX_RESUME_TEXT_CHARS } from '../../../../shared/constants';
+import { seniaritySchema, stringList } from '../../../../shared/schemas/common.js';
+import { resumeContentSchema } from '../../../../shared/schemas/resume.js';
+import { ANTI_HALLUCINATION_POLICY, LANGUAGE_POLICY } from './policy.js';
+import { truncate } from './context.js';
+import { MAX_RESUME_TEXT_CHARS } from '../../../../shared/constants.js';
 
 export const resumeExtractionSchema = z.object({
   content: resumeContentSchema,

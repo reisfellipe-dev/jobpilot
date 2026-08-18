@@ -17,9 +17,9 @@
  * formulário (Greenhouse publica), buscam as PERGUNTAS REAIS da vaga para que o
  * mapeador prepare as respostas certas, na ordem certa, prontas para colar.
  */
-import type { ApplicationMethod, SourceKind } from '../../../shared/discovery/types';
-import { fetchGreenhouseQuestions } from '../discovery/connectors/greenhouse';
-import { GENERIC_QUESTIONS, type QuestionInput } from './field-mapping';
+import type { ApplicationMethod, SourceKind } from '../../../shared/discovery/types.js';
+import { fetchGreenhouseQuestions } from '../discovery/connectors/greenhouse.js';
+import { GENERIC_QUESTIONS, type QuestionInput } from './field-mapping.js';
 
 export interface ApplicationConnectorContext {
   sourceJobId: string;

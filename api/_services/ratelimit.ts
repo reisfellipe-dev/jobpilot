@@ -5,8 +5,8 @@
  * nao introduzir Redis nem custo extra de infraestrutura. O contador vive no
  * banco, entao vale para todas as instancias serverless simultaneamente.
  */
-import { ApiError } from '../_lib/errors';
-import type { Db } from '../_lib/supabase';
+import { ApiError } from '../_lib/errors.js';
+import type { Db } from '../_lib/supabase.js';
 
 export type AIOperationName =
   | 'resume.extract'

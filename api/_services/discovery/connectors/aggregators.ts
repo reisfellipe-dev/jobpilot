@@ -9,8 +9,8 @@
  * Remotive e Remote OK pedem atribuição visível nos termos de uso — a interface
  * exibe o crédito com link (ver SOURCE_ATTRIBUTION em shared/discovery/types).
  */
-import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types';
-import { fetchJson } from '../http';
+import type { ConnectorContext, ConnectorResult, JobSourceConnector, RawJob } from '../../../../shared/discovery/types.js';
+import { fetchJson } from '../http.js';
 
 // =============================================================================
 // Remotive — https://remotive.com/api/remote-jobs

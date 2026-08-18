@@ -10,7 +10,7 @@
  *
  * Sem dependência de Node: roda no servidor, no navegador e nos testes.
  */
-import { normalizeText, tokenSimilarity } from '../matching/normalize';
+import { normalizeText, tokenSimilarity } from '../matching/normalize.js';
 
 /** Sufixos societários que não distinguem empresas. */
 const COMPANY_SUFFIXES = [

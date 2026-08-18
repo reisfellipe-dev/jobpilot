@@ -7,8 +7,8 @@
  * de codigo capaz de ler dados de outro usuario, nem por engano.
  */
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { ApiError, unauthorized } from './errors';
-import { getEnv } from './env';
+import { ApiError, unauthorized } from './errors.js';
+import { getEnv } from './env.js';
 
 export type Db = SupabaseClient;
 

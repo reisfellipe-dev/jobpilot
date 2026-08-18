@@ -3,11 +3,11 @@
  * Cada operacao recebe apenas o que precisa - reduz custo, latencia e exposicao
  * de dados pessoais ao provider de IA.
  */
-import { MISSING_MARKER } from '../../../../shared/constants';
-import type { Experience, Profile, Project, Skill } from '../../../../shared/schemas/profile';
-import type { Resume } from '../../../../shared/schemas/resume';
-import type { Job } from '../../../../shared/schemas/job';
-import type { JobAnalysis } from '../../../../shared/schemas/job';
+import { MISSING_MARKER } from '../../../../shared/constants.js';
+import type { Experience, Profile, Project, Skill } from '../../../../shared/schemas/profile.js';
+import type { Resume } from '../../../../shared/schemas/resume.js';
+import type { Job } from '../../../../shared/schemas/job.js';
+import type { JobAnalysis } from '../../../../shared/schemas/job.js';
 
 function line(label: string, value: string | null | undefined): string {
   const clean = (value ?? '').trim();

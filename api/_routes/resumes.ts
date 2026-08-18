@@ -1,13 +1,13 @@
 /** Rotas de currículos e versões adaptadas (§16/§19/§24). */
 import { z } from 'zod';
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { badRequest, notFound } from '../_lib/errors';
-import { uuidSchema } from '../../shared/schemas/common';
-import { resumeContentSchema, resumeInputSchema } from '../../shared/schemas/resume';
-import { STORAGE_BUCKET, UPLOAD_ALLOWED_MIME } from '../../shared/constants';
-import { fromResume, toResume, toResumeVersion } from '../_services/mappers';
-import { getResume, listResumes } from '../_services/repository';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { badRequest, notFound } from '../_lib/errors.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
+import { resumeContentSchema, resumeInputSchema } from '../../shared/schemas/resume.js';
+import { STORAGE_BUCKET, UPLOAD_ALLOWED_MIME } from '../../shared/constants.js';
+import { fromResume, toResume, toResumeVersion } from '../_services/mappers.js';
+import { getResume, listResumes } from '../_services/repository.js';
 
 type Row = Record<string, unknown>;
 

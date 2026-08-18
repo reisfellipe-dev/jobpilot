@@ -6,8 +6,8 @@
  * Nenhuma outra parte da aplicacao faz HTTP para provider de IA (§5).
  */
 import type { ZodError } from 'zod';
-import type { AIProviderName } from '../../../shared/constants';
-import type { ProviderEnv } from '../../_lib/env';
+import type { AIProviderName } from '../../../shared/constants.js';
+import type { ProviderEnv } from '../../_lib/env.js';
 import {
   AIError,
   type AIGenerateRequest,
@@ -16,8 +16,8 @@ import {
   type AIStructuredRequest,
   type AIStructuredResult,
   type AIUsage,
-} from './types';
-import { describeIssues, parseLooseJson } from './json';
+} from './types.js';
+import { describeIssues, parseLooseJson } from './json.js';
 
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant';

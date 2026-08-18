@@ -7,10 +7,10 @@
  *  - A IA pode ajustar o resultado em no maximo +/-10 pontos, e esse ajuste
  *    e sempre exibido separadamente do score base.
  */
-import type { Seniority, WorkMode } from '../constants';
-import { SENIORITY_RANK } from '../constants';
-import type { ResumeContent } from '../schemas/resume';
-import type { RequirementStatus, ResumeMatch, ScoreBreakdownItem } from '../schemas/job';
+import type { Seniority, WorkMode } from '../constants.js';
+import { SENIORITY_RANK } from '../constants.js';
+import type { ResumeContent } from '../schemas/resume.js';
+import type { RequirementStatus, ResumeMatch, ScoreBreakdownItem } from '../schemas/job.js';
 import {
   canonicalSkill,
   canonicalSkills,
@@ -20,7 +20,7 @@ import {
   tokenSimilarity,
   tokenize,
   totalExperienceYears,
-} from './normalize';
+} from './normalize.js';
 
 /** Pesos do score. A soma e exatamente 100. */
 export const SCORE_WEIGHTS = {

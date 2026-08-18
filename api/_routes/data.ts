@@ -4,19 +4,19 @@
  * profissionais do próprio usuário.
  */
 import { z } from 'zod';
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { badRequest } from '../_lib/errors';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { badRequest } from '../_lib/errors.js';
 import {
   experienceInputSchema,
   profileInputSchema,
   projectInputSchema,
   skillInputSchema,
-} from '../../shared/schemas/profile';
-import { resumeContentSchema, resumeInputSchema } from '../../shared/schemas/resume';
-import { jobInputSchema } from '../../shared/schemas/job';
-import { applicationInputSchema } from '../../shared/schemas/application';
-import { ANSWER_KINDS } from '../../shared/constants';
+} from '../../shared/schemas/profile.js';
+import { resumeContentSchema, resumeInputSchema } from '../../shared/schemas/resume.js';
+import { jobInputSchema } from '../../shared/schemas/job.js';
+import { applicationInputSchema } from '../../shared/schemas/application.js';
+import { ANSWER_KINDS } from '../../shared/constants.js';
 import {
   fromExperience,
   fromJob,
@@ -29,8 +29,8 @@ import {
   toJob,
   toJobAnalysisRecord,
   toResumeVersion,
-} from '../_services/mappers';
-import { getProfileBundle, getSettings, listResumes } from '../_services/repository';
+} from '../_services/mappers.js';
+import { getProfileBundle, getSettings, listResumes } from '../_services/repository.js';
 
 type Row = Record<string, unknown>;
 

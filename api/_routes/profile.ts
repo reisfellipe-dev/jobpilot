@@ -1,14 +1,14 @@
 /** Rotas do perfil profissional, experiências, projetos e skills (§13/§14/§15). */
-import { parseWith, route, type Ctx, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { notFound } from '../_lib/errors';
+import { parseWith, route, type Ctx, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { notFound } from '../_lib/errors.js';
 import {
   experienceInputSchema,
   profileInputSchema,
   projectInputSchema,
   skillInputSchema,
-} from '../../shared/schemas/profile';
-import { uuidSchema } from '../../shared/schemas/common';
+} from '../../shared/schemas/profile.js';
+import { uuidSchema } from '../../shared/schemas/common.js';
 import {
   fromExperience,
   fromProfile,
@@ -18,8 +18,8 @@ import {
   toProfile,
   toProject,
   toSkill,
-} from '../_services/mappers';
-import { getProfileBundle } from '../_services/repository';
+} from '../_services/mappers.js';
+import { getProfileBundle } from '../_services/repository.js';
 
 type Row = Record<string, unknown>;
 

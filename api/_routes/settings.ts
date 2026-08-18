@@ -1,10 +1,10 @@
 /** Configurações, consumo de IA e exclusão de dados (§12/§44/§46). */
 import { z } from 'zod';
-import { parseWith, route, type Route } from '../_lib/router';
-import { mapDbError } from '../_lib/supabase';
-import { toSettings } from '../_services/mappers';
-import { getSettings } from '../_services/repository';
-import { STORAGE_BUCKET } from '../../shared/constants';
+import { parseWith, route, type Route } from '../_lib/router.js';
+import { mapDbError } from '../_lib/supabase.js';
+import { toSettings } from '../_services/mappers.js';
+import { getSettings } from '../_services/repository.js';
+import { STORAGE_BUCKET } from '../../shared/constants.js';
 
 type Row = Record<string, unknown>;
 

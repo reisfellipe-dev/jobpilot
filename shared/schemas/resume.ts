@@ -8,8 +8,8 @@ import {
   text,
   urlSchema,
   uuidSchema,
-} from './common';
-import { certificationSchema, educationSchema, languageSchema } from './profile';
+} from './common.js';
+import { certificationSchema, educationSchema, languageSchema } from './profile.js';
 
 /**
  * Conteudo estruturado de um curriculo.

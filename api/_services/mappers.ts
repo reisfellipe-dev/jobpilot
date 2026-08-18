@@ -3,20 +3,20 @@
  * Todo jsonb vindo do banco passa por Zod antes de virar objeto de dominio:
  * dados persistidos tambem sao tratados como entrada nao confiavel.
  */
-import type { Seniority, WorkMode } from '../../shared/constants';
-import { SENIORITY_LEVELS, WORK_MODES } from '../../shared/constants';
-import type { Experience, Profile, Project, Skill } from '../../shared/schemas/profile';
-import { certificationSchema, educationSchema, languageSchema, SKILL_CATEGORIES } from '../../shared/schemas/profile';
-import { linkSchema } from '../../shared/schemas/common';
-import { emptyResumeContent, resumeContentSchema, type Resume, type ResumeVersion } from '../../shared/schemas/resume';
+import type { Seniority, WorkMode } from '../../shared/constants.js';
+import { SENIORITY_LEVELS, WORK_MODES } from '../../shared/constants.js';
+import type { Experience, Profile, Project, Skill } from '../../shared/schemas/profile.js';
+import { certificationSchema, educationSchema, languageSchema, SKILL_CATEGORIES } from '../../shared/schemas/profile.js';
+import { linkSchema } from '../../shared/schemas/common.js';
+import { emptyResumeContent, resumeContentSchema, type Resume, type ResumeVersion } from '../../shared/schemas/resume.js';
 import {
   jobAnalysisSchema,
   resumeMatchSchema,
   type Job,
   type JobAnalysisRecord,
   type ResumeMatch,
-} from '../../shared/schemas/job';
-import type { Application, ApplicationAnswer } from '../../shared/schemas/application';
+} from '../../shared/schemas/job.js';
+import type { Application, ApplicationAnswer } from '../../shared/schemas/application.js';
 import { z } from 'zod';
 
 type Row = Record<string, unknown>;

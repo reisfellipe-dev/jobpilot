@@ -1,5 +1,5 @@
 import type { ZodType, ZodTypeDef } from 'zod';
-import type { AIProviderName } from '../../../shared/constants';
+import type { AIProviderName } from '../../../shared/constants.js';
 
 /**
  * Schema visto pelo seu tipo de SAIDA.

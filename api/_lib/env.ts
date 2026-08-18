@@ -2,7 +2,7 @@
  * Acesso centralizado a variaveis de ambiente do servidor.
  * Nenhuma chave de IA sai daqui em direcao ao navegador.
  */
-import type { AIProviderName } from '../../shared/constants';
+import type { AIProviderName } from '../../shared/constants.js';
 
 function read(name: string): string {
   const value = process.env[name];

@@ -8,12 +8,12 @@
  *    (settings.allow_fallback) para nao gerar custo extra sem controle (§6).
  *  - `context_length` nunca faz fallback: o conteudo falharia nos dois providers.
  */
-import type { AIProviderName } from '../../../shared/constants';
-import { getEnv, type ServerEnv } from '../../_lib/env';
-import { ApiError } from '../../_lib/errors';
-import { GroqProvider } from './providers/groq';
-import { NvidiaProvider } from './providers/nvidia';
-import { AIError, type AIProvider, type AIUsage, type OutputSchema } from './types';
+import type { AIProviderName } from '../../../shared/constants.js';
+import { getEnv, type ServerEnv } from '../../_lib/env.js';
+import { ApiError } from '../../_lib/errors.js';
+import { GroqProvider } from './providers/groq.js';
+import { NvidiaProvider } from './providers/nvidia.js';
+import { AIError, type AIProvider, type AIUsage, type OutputSchema } from './types.js';
 
 export type CostTier = 'light' | 'heavy';
 

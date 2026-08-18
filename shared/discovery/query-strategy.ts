@@ -7,8 +7,8 @@
  *
  * Determinístico — nenhuma chamada de IA para montar a busca.
  */
-import { canonicalSkill, normalizeText, tokenSimilarity } from '../matching/normalize';
-import type { Seniority, WorkMode } from '../constants';
+import { canonicalSkill, normalizeText, tokenSimilarity } from '../matching/normalize.js';
+import type { Seniority, WorkMode } from '../constants.js';
 
 export interface StrategyInput {
   desiredRoles: string[];

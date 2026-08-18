@@ -12,10 +12,10 @@
  *
  * Nada aqui inventa resposta. Pergunta sem base vira revisão obrigatória.
  */
-import { canonicalSkill, containsTerm, normalizeText, totalExperienceYears } from '../../../shared/matching/normalize';
-import { TECH_VOCABULARY } from '../../../shared/discovery/vocabulary';
-import type { ApplicationFieldPlan } from '../../../shared/discovery/schemas';
-import type { DataState } from '../../../shared/discovery/types';
+import { canonicalSkill, containsTerm, normalizeText, totalExperienceYears } from '../../../shared/matching/normalize.js';
+import { TECH_VOCABULARY } from '../../../shared/discovery/vocabulary.js';
+import type { ApplicationFieldPlan } from '../../../shared/discovery/schemas.js';
+import type { DataState } from '../../../shared/discovery/types.js';
 
 export interface MapperProfile {
   fullName: string;

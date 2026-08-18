@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { isoDateSchema, optionalText, scoreSchema, uuidSchema } from './common';
-import { ANSWER_KINDS, APPLICATION_STATUSES } from '../constants';
+import { isoDateSchema, optionalText, scoreSchema, uuidSchema } from './common.js';
+import { ANSWER_KINDS, APPLICATION_STATUSES } from '../constants.js';
 
 export const applicationInputSchema = z.object({
   jobId: uuidSchema,

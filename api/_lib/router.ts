@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from '@vercel/node';
 import { ZodError, type z, type ZodTypeAny } from 'zod';
-import { ApiError, unauthorized } from './errors';
-import { authenticate, extractBearerToken, type AuthenticatedUser, type Db } from './supabase';
+import { ApiError, unauthorized } from './errors.js';
+import { authenticate, extractBearerToken, type AuthenticatedUser, type Db } from './supabase.js';
 
 export type HttpMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
 

@@ -3,11 +3,11 @@
  * ativa - defesa em profundidade contra erro de policy (§11).
  */
 import { createHash } from 'node:crypto';
-import { ApiError, notFound } from '../_lib/errors';
-import { mapDbError, type Db } from '../_lib/supabase';
-import type { Experience, Profile, Project, Skill } from '../../shared/schemas/profile';
-import type { Resume } from '../../shared/schemas/resume';
-import type { Job } from '../../shared/schemas/job';
+import { ApiError, notFound } from '../_lib/errors.js';
+import { mapDbError, type Db } from '../_lib/supabase.js';
+import type { Experience, Profile, Project, Skill } from '../../shared/schemas/profile.js';
+import type { Resume } from '../../shared/schemas/resume.js';
+import type { Job } from '../../shared/schemas/job.js';
 import {
   toExperience,
   toJob,
@@ -17,7 +17,7 @@ import {
   toSettings,
   toSkill,
   type UserSettings,
-} from './mappers';
+} from './mappers.js';
 
 type Row = Record<string, unknown>;
 
