@@ -373,6 +373,14 @@ export async function runDiscovery(ctx: DiscoveryContext, options: RunOptions = 
         limit: LIMIT_PER_SOURCE,
       });
 
+      // DIAGNÓSTICO TEMPORÁRIO: mostra no log da Vercel quantas vagas cada
+      // conector trouxe brutas (antes do pré-filtro), para confirmar se o
+      // problema de "nunca encontra vaga" está na busca (0 aqui) ou no
+      // pré-filtro/gravação (>0 aqui, mas 0 vagas salvas). Remover depois.
+      console.log(
+        `[discovery][diag] ${source.kind} (since=${options.full ? 'full' : (source.lastSyncAt ?? 'null')}) bruto=${outcome.jobs.length} termos=${JSON.stringify(strategy.terms)}`,
+      );
+
       let filtered = 0;
       for (const raw of outcome.jobs) {
         const normalized = normalizeRawJob(source.kind, raw);
